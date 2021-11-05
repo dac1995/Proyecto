@@ -8,4 +8,5 @@ Proyecto Diego Araque Chicano
 
 Se va hacer en Visual Studio, integrandolo con Github.
 Viernes29: Empezar proyecto, ver la organización (Que objeto de visual estudio usar, y saber como linkear con Github), hacer Sketches
-Viernes5: Proyecto empezado, para llegar y empezar a programar, mostrar los datos organizados por hora de entrada y salida.
+Viernes5: Proyecto empezado, para llegar y empezar a programar
+Viernes12: Minimo mostrar los datos organizados por hora de entrada y salida.
