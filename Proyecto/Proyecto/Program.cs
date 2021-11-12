@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,9 +16,87 @@ namespace Proyecto
         [STAThread]
         static void Main()
         {
+            string[] Dias = new string[] { "L", "M", "X", "J", "V" };
+            int tam = funciones.nDatos();
+            Usuarios[] datos = new Usuarios[tam];
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            using (var connection = new SQLiteConnection("Data Source=C:\\Users\\estudiante\\Documents\\GitHub\\Proyecto\\Datos.db"))
+            datos = funciones.CargarDatos(tam);
+            Console.WriteLine(datos.Length);
+            Console.WriteLine(datos[0].UsuarioGS) ;
+
+            //Application.Run(new Form1());
+
+        }
+
+
+
+
+    }
+
+    public class Usuarios
+    {
+        string Usuario;
+        bool Conduce;
+        int NDiasCond;
+        int Entrada;
+        int Salida;
+
+        public Usuarios(string usuario, int nDiasCond)
+        {
+            Usuario = usuario;
+            NDiasCond = nDiasCond;
+        }
+
+        public string UsuarioGS { get => Usuario; set => Usuario = value; }
+        public bool ConduceGS { get => Conduce; set => Conduce = value; }
+        public int NDiasCondGS { get => NDiasCond; set => NDiasCond = value; }
+        public int EntradaGS { get => Entrada; set => Entrada = value; }
+        public int SalidaGS { get => Salida; set => Salida = value; }
+    }
+
+    
+    public class funciones
+    {
+
+        public static string getConnectionString()
+        {
+            string relativePath = @"Proyecto\\Datos.db";
+            var parentdir = Path.GetDirectoryName(Application.StartupPath);
+            string myString = parentdir.Remove(parentdir.Length - 31, 31);
+            string absolutePath = Path.Combine(myString, relativePath);
+            string connectionString = string.Format("Data Source={0};Version=3;Pooling=True;Max Pool Size=100;", absolutePath);
+
+            return connectionString;
+        }
+
+        public static int nDatos()
+        {
+            int x = -1;
+
+            using (var connection = new SQLiteConnection(funciones.getConnectionString()))
+            {
+                connection.Open();
+
+                var command = connection.CreateCommand();
+                command.CommandText =
+                @"
+                SELECT count(*)
+                FROM Usuarios
+                ";
+
+                x = int.Parse(command.ExecuteScalar().ToString());
+
+                
+            }
+
+            return x;
+        }
+        public static Usuarios[] CargarDatos(int x)
+        {
+            Usuarios[] datos = new Usuarios[x];
+            int i = 0;
+            using (var connection = new SQLiteConnection(funciones.getConnectionString()))
             {
                 connection.Open();
 
@@ -26,9 +105,7 @@ namespace Proyecto
                 @"
                 SELECT Usuario
                 FROM Usuarios
-                WHERE Usuario = $id
                 ";
-                command.Parameters.AddWithValue("$id", "J");
 
                 using (var reader = command.ExecuteReader())
                 {
@@ -36,24 +113,23 @@ namespace Proyecto
                     {
                         var name = reader.GetString(0);
 
-                        Console.WriteLine($"Hello, {name}!");
+
+                        datos[i] = new Usuarios(name, 0);
+                        i++;
                     }
                 }
             }
-            Application.Run(new Form1());
-            
+            return datos;
+        }
+
+        public static void CargarDia(string dia, ref Usuarios[] data)
+        {
+
         }
 
 
+        public static void CargarDiaUsuario(string dia, ref Usuarios user) { }
     }
-
-    class Usuarios
-    {
-        string Usuario;
-        bool Conduce;
-        int NDiasCond;
-        int Entrada;
-        int Salida;
-    }
+   
 
 }
