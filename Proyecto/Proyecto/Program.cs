@@ -124,11 +124,51 @@ namespace Proyecto
 
         public static void CargarDia(string dia, ref Usuarios[] data)
         {
+            using (var connection = new SQLiteConnection(funciones.getConnectionString()))
+            {
+                connection.Open();
 
+                var command = connection.CreateCommand();
+
+                for (int i = 0; i < data.Length; i++)
+                {
+                    CargarDiaUsuario(dia,ref data[i],command);
+                }
+
+
+
+            }
         }
 
 
-        public static void CargarDiaUsuario(string dia, ref Usuarios user) { }
+        public static void CargarDiaUsuario(string dia, ref Usuarios user, SQLiteCommand com)
+        {
+
+            string line = "Entrada"+dia+", Salida"+dia;
+
+            com.CommandText =
+               @"
+                SELECT " + line + @"
+                FROM Usuarios
+                WHERE Usuario = $id
+                ";
+            com.Parameters.AddWithValue("$id", user.UsuarioGS);
+
+            using (var reader = com.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var ent = reader.GetInt32(0);
+                    var sal = reader.GetInt32(1);
+
+
+                    user.EntradaGS = ent;
+                    user.SalidaGS = sal;
+
+
+                }
+            }
+        }
     }
    
 
