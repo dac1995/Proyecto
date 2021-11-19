@@ -63,12 +63,21 @@ namespace Proyecto
         int Entrada;
         int Salida;
 
+        public Usuarios()
+        {
+            Usuario = "NoName";
+        }
         public Usuarios(string usuario, int nDiasCond)
         {
             Usuario = usuario;
             NDiasCond = nDiasCond;
         }
 
+        public bool minNDiasCond(Usuarios otro)
+        {
+            if (this.NDiasCond >= otro.NDiasCond) return true;
+            else return false;
+        }
         public string UsuarioGS { get => Usuario; set => Usuario = value; }
         public bool ConduceGS { get => Conduce; set => Conduce = value; }
         public int NDiasCondGS { get => NDiasCond; set => NDiasCond = value; }
@@ -226,17 +235,42 @@ namespace Proyecto
             for(int i = 1; i < 6; i++)
             {
                 Usuarios[] x = Array.FindAll(data, element => element.EntradaGS == i);
-
-
-
+                Usuarios min = new Usuarios();
                 
-                UsuariosDiaHora.Add(dia, "E" + i, x);
-                Console.WriteLine(x.Length);
-                for (int j = 0; j < x.Length; j++)
+                if(x.Length == 1)
                 {
-                    Console.WriteLine(x[j].UsuarioGS);
+                    x[0].ConduceGS = true;
+                    x[0].NDiasCondGS++;
 
+                }else if (x.Length > 1)
+                {
+                    if(min.UsuarioGS == "NoName")
+                    {
+                        min = x[0];
+                    }
+
+                    //Coger x.length, dividir entre 5 y a partir de ahi cada 5, se mete un conductor
+
+                    for (int j = 1; j < x.Length; j++)
+                    {
+                        
+                       if(min.minNDiasCond(x[i]))
+                        {
+                            min = x[i];
+                        }
+
+                    }
                 }
+
+
+
+                UsuariosDiaHora.Add(dia, "E" + i, x);
+                //Console.WriteLine(x.Length);
+                //for (int j = 0; j < x.Length; j++)
+                //{
+                //    Console.WriteLine(x[j].UsuarioGS);
+
+                //}
             }
         
         }
