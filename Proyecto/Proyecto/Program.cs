@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Aron.Weiler;
 
 namespace Proyecto
 {
@@ -17,14 +18,31 @@ namespace Proyecto
         static void Main()
         {
             string[] Dias = new string[] { "L", "M", "X", "J", "V" };
+            //Dictionary<string, Usuarios[]> UsuariosDia = new Dictionary<string, Usuarios[]>();
             int tam = funciones.nDatos();
+            
             Usuarios[] datos = new Usuarios[tam];
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             datos = funciones.CargarDatos(tam);
-            Console.WriteLine(datos.Length);
-            Console.WriteLine(datos[0].UsuarioGS) ;
+            //Console.WriteLine(datos.Length);
+            //Console.WriteLine(datos[1].UsuarioGS);
+            //Console.WriteLine(datos[1].EntradaGS);
 
+            foreach (string d in Dias)
+            {
+                funciones.CargarDia(d, ref datos);
+                Usuarios[] x = Array.FindAll(datos, element => element.EntradaGS == 4);
+                Console.WriteLine(x.Length);
+                for (int i = 0;i<x.Length; i++)
+                {
+                    Console.WriteLine(x[i].UsuarioGS);
+
+                }
+               // Console.WriteLine(datos[1].UsuarioGS);
+                //Console.WriteLine(datos[1].EntradaGS);
+
+            }
             //Application.Run(new Form1());
 
         }
@@ -164,11 +182,33 @@ namespace Proyecto
 
                     user.EntradaGS = ent;
                     user.SalidaGS = sal;
+                    user.ConduceGS = false;
 
 
                 }
             }
         }
+
+        public static void RestaurarConducir(ref Usuarios[] data)
+        {
+            foreach(Usuarios user in data)
+            {
+                user.ConduceGS = false;
+            }
+        }
+
+        public static void ActualizarDatos(ref Usuarios[] oldData,ref Usuarios[] newData )
+        {
+            foreach(Usuarios newUser in newData)
+            {
+                foreach(Usuarios oldUser in oldData)
+                {
+                    if(oldUser.UsuarioGS == newUser.UsuarioGS)
+                    oldUser.NDiasCondGS = newUser.NDiasCondGS;
+                }
+            }
+        }
+
     }
    
 
