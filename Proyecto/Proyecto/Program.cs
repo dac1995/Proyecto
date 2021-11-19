@@ -18,9 +18,11 @@ namespace Proyecto
         static void Main()
         {
             string[] Dias = new string[] { "L", "M", "X", "J", "V" };
+            
             //Dictionary<string, Usuarios[]> UsuariosDia = new Dictionary<string, Usuarios[]>();
             int tam = funciones.nDatos();
-            
+            //Las llaves son 
+            MultiKeyDictionary<string, string, Usuarios> UsuariosDiaHora = new MultiKeyDictionary<string, int, Usuarios>();
             Usuarios[] datos = new Usuarios[tam];
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -52,6 +54,7 @@ namespace Proyecto
 
     }
 
+    //Clase principal usuarios con sus getter y setter
     public class Usuarios
     {
         string Usuario;
@@ -73,10 +76,10 @@ namespace Proyecto
         public int SalidaGS { get => Salida; set => Salida = value; }
     }
 
-    
+    //Funciones principales
     public class funciones
     {
-
+        //Funcion para coger el String de conexion, dando igual donde este localizado el proyecto (Teniendo que estar la base de datos en su respectivo sitio en el proyecto)
         public static string getConnectionString()
         {
             string relativePath = @"Proyecto\\Datos.db";
@@ -88,6 +91,7 @@ namespace Proyecto
             return connectionString;
         }
 
+        //Devuelve el numero de datos que hay en la base de datos
         public static int nDatos()
         {
             int x = -1;
@@ -110,6 +114,8 @@ namespace Proyecto
 
             return x;
         }
+
+        //Devuelve el array de usuarios 
         public static Usuarios[] CargarDatos(int x)
         {
             Usuarios[] datos = new Usuarios[x];
@@ -140,6 +146,7 @@ namespace Proyecto
             return datos;
         }
 
+        //Carga la hora del dia elegido en sus usuarios
         public static void CargarDia(string dia, ref Usuarios[] data)
         {
             using (var connection = new SQLiteConnection(funciones.getConnectionString()))
@@ -157,7 +164,6 @@ namespace Proyecto
 
             }
         }
-
 
         public static void CargarDiaUsuario(string dia, ref Usuarios user, SQLiteCommand com)
         {
@@ -188,7 +194,7 @@ namespace Proyecto
                 }
             }
         }
-
+        //Restaura el booleano a false sobre si conduce un dia o no de todos los usuarios
         public static void RestaurarConducir(ref Usuarios[] data)
         {
             foreach(Usuarios user in data)
@@ -197,14 +203,18 @@ namespace Proyecto
             }
         }
 
+        //Actualiza los datos antiguos con los nuevos
         public static void ActualizarDatos(ref Usuarios[] oldData,ref Usuarios[] newData )
         {
             foreach(Usuarios newUser in newData)
             {
                 foreach(Usuarios oldUser in oldData)
                 {
-                    if(oldUser.UsuarioGS == newUser.UsuarioGS)
-                    oldUser.NDiasCondGS = newUser.NDiasCondGS;
+                    if (oldUser.UsuarioGS == newUser.UsuarioGS)
+                    {
+                        oldUser.ConduceGS = newUser.ConduceGS;
+                        oldUser.NDiasCondGS = newUser.NDiasCondGS;
+                    }
                 }
             }
         }
