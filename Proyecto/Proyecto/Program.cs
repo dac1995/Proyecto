@@ -22,7 +22,7 @@ namespace Proyecto
             //Dictionary<string, Usuarios[]> UsuariosDia = new Dictionary<string, Usuarios[]>();
             int tam = funciones.nDatos();
             //Las llaves son 
-            MultiKeyDictionary<string, string, Usuarios> UsuariosDiaHora = new MultiKeyDictionary<string, int, Usuarios>();
+            MultiKeyDictionary<string, string, Usuarios[]> UsuariosDiaHora = new MultiKeyDictionary<string, String, Usuarios[]>();
             Usuarios[] datos = new Usuarios[tam];
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -218,6 +218,29 @@ namespace Proyecto
                 }
             }
         }
+
+        //Estructuración de los datos por dia, se guardan los datos en un diccionario
+        public static void EstructDia(string dia,ref Usuarios[] data, ref MultiKeyDictionary<string, string, Usuarios[]> UsuariosDiaHora)
+        {
+            //Primero la entrada
+            for(int i = 1; i < 6; i++)
+            {
+                Usuarios[] x = Array.FindAll(data, element => element.EntradaGS == i);
+
+
+
+                
+                UsuariosDiaHora.Add(dia, "E" + i, x);
+                Console.WriteLine(x.Length);
+                for (int j = 0; j < x.Length; j++)
+                {
+                    Console.WriteLine(x[j].UsuarioGS);
+
+                }
+            }
+        
+        }
+
 
     }
    
