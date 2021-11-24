@@ -213,7 +213,7 @@ namespace Proyecto
         }
 
         //Actualiza los datos antiguos con los nuevos
-        public static void ActualizarDatos(ref Usuarios[] oldData, ref Usuarios[] newData)
+        public static void ActualizarDatos(ref Usuarios[] oldData, Usuarios[] newData)
         {
             foreach (Usuarios newUser in newData)
             {
@@ -231,6 +231,7 @@ namespace Proyecto
         //Estructuración de los datos por dia, se guardan los datos en un diccionario
         public static void EstructDia(string dia, ref Usuarios[] data, ref MultiKeyDictionary<string, string, Usuarios[]> UsuariosDiaHora)
         {
+
 
             //Primero los conductores que van solos
 
@@ -294,8 +295,65 @@ namespace Proyecto
 
             //Finalmente la salida
 
+            for (int i = 2; i < 7; i++)
+            {
+                //Coger x.length, dividir entre 5 y a partir de ahi cada 5, se mete un conductor, oon find buscamos los conductores por dia y finalmente creo una instancia de la clase para ver cual es el minimo
 
-            //Restauramos y actualizamos los valores
+                Usuarios[] x = Array.FindAll(data, element => element.SalidaGS == i);
+                Usuarios min = new Usuarios();
+                double nCondDia = 0;
+                double supCondDia = x.Length / 5;
+                supCondDia = Math.Truncate(supCondDia) + 1;
+                Usuarios[] ConductoresSol = Array.FindAll(x, element => element.ConduceGS == true);
+
+                if (x.Length > 1)
+                {
+                    nCondDia = ConductoresSol.Length;
+                    if (min.UsuarioGS == "NoName")
+                    {
+                        min = x[0];
+                    }
+
+                    while (nCondDia < supCondDia)
+                    {
+                        for (int j = 1; j < x.Length; j++)
+                        {
+
+                            if (min.minNDiasCond(x[i]))
+                            {
+                                min = x[i];
+                            }
+
+                        }
+                        foreach (Usuarios user in x)
+                        {
+                            if (user.UsuarioGS == min.UsuarioGS)
+                            {
+                                user.NDiasCondGS++;
+                                user.ConduceGS = true;
+                            }
+                        }
+
+                        nCondDia++;
+                    }
+
+                }
+
+
+
+                UsuariosDiaHora.Add(dia, "S" + i, x);
+            }
+
+            ;
+
+            //Actualizamos y reiniciamos los valores
+            for(int n = 0; n< UsuariosDiaHora[dia].Length;n++)              
+            {
+                ActualizarDatos(ref data, UsuariosDiaHora[dia].GetValue(0));
+            }
+
+
+            RestaurarConducir(ref data);
 
         }
 
@@ -321,7 +379,7 @@ namespace Proyecto
 
             for (int j = 2; j < 7; j++)
             {
-                Usuarios[] x = Array.FindAll(data, element => element.EntradaGS == j);
+                Usuarios[] x = Array.FindAll(data, element => element.SalidaGS == j);
 
 
                 if (x.Length == 1)
@@ -339,7 +397,7 @@ namespace Proyecto
 
             Usuarios[] usuariosSol = CondSol.ToArray();
 
-            ActualizarDatos(ref data, ref usuariosSol);
+            ActualizarDatos(ref data, usuariosSol);
 
 
 
