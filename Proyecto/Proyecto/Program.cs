@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Aron.Weiler;
 
 namespace Proyecto
 {
@@ -22,7 +21,8 @@ namespace Proyecto
             //Dictionary<string, Usuarios[]> UsuariosDia = new Dictionary<string, Usuarios[]>();
             int tam = funciones.nDatos();
             //Las llaves son 
-            MultiKeyDictionary<string, string, Usuarios[]> UsuariosDiaHora = new MultiKeyDictionary<string, String, Usuarios[]>();
+
+            Dictionary< Tuple<string, string>, Usuarios[]> UsuariosDiaHora = new Dictionary<Tuple<string, string>, Usuarios[]>();
             Usuarios[] datos = new Usuarios[tam];
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -34,18 +34,23 @@ namespace Proyecto
             foreach (string d in Dias)
             {
                 funciones.CargarDia(d, ref datos);
-                Usuarios[] x = Array.FindAll(datos, element => element.EntradaGS == 4);
-                Console.WriteLine(x.Length);
-                for (int i = 0;i<x.Length; i++)
-                {
-                    Console.WriteLine(x[i].UsuarioGS);
-
-                }
-               // Console.WriteLine(datos[1].UsuarioGS);
-                //Console.WriteLine(datos[1].EntradaGS);
-
+                funciones.EstructDia(d, ref datos, ref UsuariosDiaHora);
+                
             }
-            //Application.Run(new Form1());
+
+            //Usuarios[] Prueba = UsuariosDiaHora[Tuple.Create("X", "S5")];
+
+
+            //foreach (Usuarios user in Prueba)
+            //{
+            //    Console.WriteLine(user.SalidaGS);
+            //    Console.WriteLine(user.ConduceGS);
+            //    Console.WriteLine(user.UsuarioGS);
+            //    Console.WriteLine(user.NVecesCondGS);
+
+
+            //}
+            ////Application.Run(new Form1());*/
 
         }
 
@@ -55,11 +60,11 @@ namespace Proyecto
     }
 
     //Clase principal usuarios con sus getter y setter
-    public class Usuarios
+    public class Usuarios: ICloneable
     {
         string Usuario;
         bool Conduce;
-        int NDiasCond;
+        int nVecesCond;
         int Entrada;
         int Salida;
 
@@ -67,20 +72,36 @@ namespace Proyecto
         {
             Usuario = "NoName";
         }
-        public Usuarios(string usuario, int nDiasCond)
+        public Usuarios(string usuario, int nVecesCond)
         {
             Usuario = usuario;
-            NDiasCond = nDiasCond;
+            this.nVecesCond = nVecesCond;
+        }
+
+        public Usuarios(string usuario, bool conduce, int nVecesCond, int entrada, int salida)
+        {
+            Usuario = usuario;
+            Conduce = conduce;
+            this.nVecesCond = nVecesCond;
+            Entrada = entrada;
+            Salida = salida;
         }
 
         public bool minNDiasCond(Usuarios otro)
         {
-            if (this.NDiasCond >= otro.NDiasCond) return true;
+            if (this.nVecesCond >= otro.nVecesCond) return true;
             else return false;
         }
+
+        public object Clone()
+        {
+            Usuarios a = new Usuarios(this.Usuario, this.Conduce, this.nVecesCond, this.Entrada, this.Salida);
+            return a;
+        }
+
         public string UsuarioGS { get => Usuario; set => Usuario = value; }
         public bool ConduceGS { get => Conduce; set => Conduce = value; }
-        public int NDiasCondGS { get => NDiasCond; set => NDiasCond = value; }
+        public int NVecesCondGS { get => nVecesCond; set => nVecesCond = value; }
         public int EntradaGS { get => Entrada; set => Entrada = value; }
         public int SalidaGS { get => Salida; set => Salida = value; }
     }
@@ -222,20 +243,20 @@ namespace Proyecto
                     if (oldUser.UsuarioGS == newUser.UsuarioGS)
                     {
                         oldUser.ConduceGS = newUser.ConduceGS;
-                        oldUser.NDiasCondGS = newUser.NDiasCondGS;
+                        oldUser.NVecesCondGS = newUser.NVecesCondGS;
                     }
                 }
             }
         }
 
         //Estructuración de los datos por dia, se guardan los datos en un diccionario
-        public static void EstructDia(string dia, ref Usuarios[] data, ref MultiKeyDictionary<string, string, Usuarios[]> UsuariosDiaHora)
+        public static void EstructDia(string dia, ref Usuarios[] data, ref Dictionary<Tuple<string, string>, Usuarios[]> UsuariosDiaHora)
         {
 
 
             //Primero los conductores que van solos
 
-            CondSolitarioDia(ref data);
+            //CondSolitarioDia(ref data);
 
             //Despues la entrada
             for (int i = 1; i < 6; i++)
@@ -247,32 +268,43 @@ namespace Proyecto
                 double nCondDia = 0;
                 double supCondDia = x.Length / 5;
                 supCondDia = Math.Truncate(supCondDia) + 1;
-                Usuarios[] ConductoresSol = Array.FindAll(x, element => element.ConduceGS == true);
+                
 
-                if (x.Length > 1)
+                if (x.Length == 1)
                 {
-                    nCondDia = ConductoresSol.Length;
+                    x[0].ConduceGS = true;
+                    x[0].NVecesCondGS++;
+                   
+                } else if (x.Length > 1)
+                {
+                    
                     if (min.UsuarioGS == "NoName")
                     {
                         min = x[0];
                     }
+
+                    foreach(Usuarios user in x){
+                        if (user.ConduceGS == true)
+                            nCondDia++;
+                    }
+
 
                     while (nCondDia < supCondDia)
                     {
                         for (int j = 1; j < x.Length; j++)
                         {
 
-                            if (min.minNDiasCond(x[i]))
+                            if (min.minNDiasCond(x[j]))
                             {
-                                min = x[i];
+                                min = x[j];
                             }
 
                         }
-                        foreach(Usuarios user in x)
+                        foreach (Usuarios user in x)
                         {
-                            if(user.UsuarioGS == min.UsuarioGS)
+                            if (user.UsuarioGS == min.UsuarioGS)
                             {
-                                user.NDiasCondGS++;
+                                user.NVecesCondGS++;
                                 user.ConduceGS = true;
                             }
                         }
@@ -282,9 +314,10 @@ namespace Proyecto
  
                 }
 
-
-
-                UsuariosDiaHora.Add(dia, "E" + i, x);
+                
+                Usuarios[] usuarios = x.Select(a => (Usuarios)a.Clone()).ToArray();
+                
+                UsuariosDiaHora.Add(new Tuple<string,string>(dia, "E" + i), usuarios);
                 //Console.WriteLine(x.Length);
                 //for (int j = 0; j < x.Length; j++)
                 //{
@@ -304,11 +337,20 @@ namespace Proyecto
                 double nCondDia = 0;
                 double supCondDia = x.Length / 5;
                 supCondDia = Math.Truncate(supCondDia) + 1;
-                Usuarios[] ConductoresSol = Array.FindAll(x, element => element.ConduceGS == true);
 
-                if (x.Length > 1)
+
+                if (x.Length == 1)
                 {
-                    nCondDia = ConductoresSol.Length;
+                    if (x[0].ConduceGS == false)
+                    {
+                        x[0].ConduceGS = true;
+                        x[0].NVecesCondGS++;
+                        
+                    }
+
+                }else if (x.Length > 1)
+                {
+              
                     if (min.UsuarioGS == "NoName")
                     {
                         min = x[0];
@@ -319,9 +361,9 @@ namespace Proyecto
                         for (int j = 1; j < x.Length; j++)
                         {
 
-                            if (min.minNDiasCond(x[i]))
+                            if (min.minNDiasCond(x[j]))
                             {
-                                min = x[i];
+                                min = x[j];
                             }
 
                         }
@@ -329,7 +371,7 @@ namespace Proyecto
                         {
                             if (user.UsuarioGS == min.UsuarioGS)
                             {
-                                user.NDiasCondGS++;
+                                user.NVecesCondGS++;
                                 user.ConduceGS = true;
                             }
                         }
@@ -340,25 +382,29 @@ namespace Proyecto
                 }
 
 
-
-                UsuariosDiaHora.Add(dia, "S" + i, x);
+                Usuarios[] usuarios = x.Select(a => (Usuarios)a.Clone()).ToArray();
+                UsuariosDiaHora.Add(new Tuple<string, string>(dia, "S" + i), usuarios);
             }
 
             ;
 
             //Actualizamos y reiniciamos los valores
-            for(int n = 0; n< UsuariosDiaHora[dia].Length;n++)              
+            for(int n = 1; n< 6;n++)              
             {
-                ActualizarDatos(ref data, UsuariosDiaHora[dia].GetValue(0));
-            }
+                if(n<6)
+                ActualizarDatos(ref data, UsuariosDiaHora[Tuple.Create(dia, "E" + n)]);
 
+                if(n>1)
+                ActualizarDatos(ref data, UsuariosDiaHora[Tuple.Create(dia, "S" + n)]);
+
+            }
 
             RestaurarConducir(ref data);
 
         }
 
 
-        //Preparacion de los datos de los conductores que van o vuelven solos
+        /*Preparacion de los datos de los conductores que van o vuelven solos
         public static void CondSolitarioDia(ref Usuarios[] data)
         {
             List<Usuarios> CondSol = new List<Usuarios>();
@@ -371,7 +417,7 @@ namespace Proyecto
                 if (x.Length == 1)
                 {
                     x[0].ConduceGS = true;
-                    x[0].NDiasCondGS++;
+                    x[0].NVecesCondGS++;
                     CondSol.Add(x[0]);
                 }
 
@@ -387,7 +433,7 @@ namespace Proyecto
                     if (x[0].ConduceGS == false)
                     {
                         x[0].ConduceGS = true;
-                        x[0].NDiasCondGS++;
+                        x[0].NVecesCondGS++;
                         CondSol.Add(x[0]);
                     }
 
@@ -401,8 +447,9 @@ namespace Proyecto
 
 
 
-        }
 
+        }
+        */
 
 
     }
