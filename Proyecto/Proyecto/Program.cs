@@ -38,18 +38,17 @@ namespace Proyecto
                 
             }
 
-            //Usuarios[] Prueba = UsuariosDiaHora[Tuple.Create("X", "S5")];
+            Usuarios[] Prueba = UsuariosDiaHora[Tuple.Create("J", "E1")];
 
 
-            //foreach (Usuarios user in Prueba)
-            //{
-            //    Console.WriteLine(user.SalidaGS);
-            //    Console.WriteLine(user.ConduceGS);
-            //    Console.WriteLine(user.UsuarioGS);
-            //    Console.WriteLine(user.NVecesCondGS);
+            foreach (Usuarios user in Prueba)
+            {
+                Console.WriteLine(user.UsuarioGS);
+                Console.WriteLine(user.ConduceGS);
+                Console.WriteLine(user.NVecesCondGS);
 
 
-            //}
+            }
             ////Application.Run(new Form1());*/
 
         }
@@ -67,7 +66,7 @@ namespace Proyecto
         int nVecesCond;
         int Entrada;
         int Salida;
-
+        
         public Usuarios()
         {
             Usuario = "NoName";
@@ -109,9 +108,21 @@ namespace Proyecto
     //Funciones principales
     public class funciones
     {
+        //private int Asientos = 5;
+
+        //public int AsientosGS { get => Asientos; set => Asientos = value; }
+
+        //public funciones(int asientos)
+        //{
+        //    Asientos = asientos;
+        //}
+
+
         //Funcion para coger el String de conexion, dando igual donde este localizado el proyecto (Teniendo que estar la base de datos en su respectivo sitio en el proyecto)
         public static string getConnectionString()
         {
+            
+            
             string relativePath = @"Proyecto\\Datos.db";
             var parentdir = Path.GetDirectoryName(Application.StartupPath);
             string myString = parentdir.Remove(parentdir.Length - 31, 31);
@@ -135,6 +146,7 @@ namespace Proyecto
                 @"
                 SELECT count(*)
                 FROM Usuarios
+                
                 ";
 
                 x = int.Parse(command.ExecuteScalar().ToString());
@@ -159,6 +171,7 @@ namespace Proyecto
                 @"
                 SELECT Usuario
                 FROM Usuarios
+                
                 ";
 
                 using (var reader = command.ExecuteReader())
@@ -253,37 +266,39 @@ namespace Proyecto
         public static void EstructDia(string dia, ref Usuarios[] data, ref Dictionary<Tuple<string, string>, Usuarios[]> UsuariosDiaHora)
         {
 
-
-            //Primero los conductores que van solos
-
-            //CondSolitarioDia(ref data);
+            List<Usuarios> UsuariosSalida = new List<Usuarios>();
 
             //Despues la entrada
             for (int i = 1; i < 6; i++)
             {
                 //Coger x.length, dividir entre 5 y a partir de ahi cada 5, se mete un conductor, oon find buscamos los conductores por dia y finalmente creo una instancia de la clase para ver cual es el minimo
 
-                Usuarios[] x = Array.FindAll(data, element => element.EntradaGS == i);
+                Usuarios[] ex = Array.FindAll(data, element => element.EntradaGS == i);
                 Usuarios min = new Usuarios();
-                double nCondDia = 0;
-                double supCondDia = x.Length / 5;
-                supCondDia = Math.Truncate(supCondDia) + 1;
-                
+                decimal nCondDia = 0;
+                decimal supCondDia = (decimal)ex.Length / 5;
 
-                if (x.Length == 1)
+                if(supCondDia % 1 != 0)
                 {
-                    x[0].ConduceGS = true;
-                    x[0].NVecesCondGS++;
+                    supCondDia = Math.Truncate(supCondDia) + 1;
+
+                }
+
+
+                if (ex.Length == 1)
+                {
+                    ex[0].ConduceGS = true;
+                    ex[0].NVecesCondGS++;
                    
-                } else if (x.Length > 1)
+                } else if (ex.Length > 1)
                 {
                     
                     if (min.UsuarioGS == "NoName")
                     {
-                        min = x[0];
+                        min = ex[0];
                     }
 
-                    foreach(Usuarios user in x){
+                    foreach(Usuarios user in ex){
                         if (user.ConduceGS == true)
                             nCondDia++;
                     }
@@ -291,16 +306,16 @@ namespace Proyecto
 
                     while (nCondDia < supCondDia)
                     {
-                        for (int j = 1; j < x.Length; j++)
+                        for (int j = 1; j < ex.Length; j++)
                         {
 
-                            if (min.minNDiasCond(x[j]))
+                            if (min.minNDiasCond(ex[j]))
                             {
-                                min = x[j];
+                                min = ex[j];
                             }
 
                         }
-                        foreach (Usuarios user in x)
+                        foreach (Usuarios user in ex)
                         {
                             if (user.UsuarioGS == min.UsuarioGS)
                             {
@@ -315,9 +330,9 @@ namespace Proyecto
                 }
 
                 
-                Usuarios[] usuarios = x.Select(a => (Usuarios)a.Clone()).ToArray();
+                Usuarios[] entradas = ex.Select(a => (Usuarios)a.Clone()).ToArray();
                 
-                UsuariosDiaHora.Add(new Tuple<string,string>(dia, "E" + i), usuarios);
+                UsuariosDiaHora.Add(new Tuple<string,string>(dia, "E" + i), entradas);
                 //Console.WriteLine(x.Length);
                 //for (int j = 0; j < x.Length; j++)
                 //{
@@ -332,42 +347,53 @@ namespace Proyecto
             {
                 //Coger x.length, dividir entre 5 y a partir de ahi cada 5, se mete un conductor, oon find buscamos los conductores por dia y finalmente creo una instancia de la clase para ver cual es el minimo
 
-                Usuarios[] x = Array.FindAll(data, element => element.SalidaGS == i);
+                Usuarios[] sx = Array.FindAll(data, element => element.SalidaGS == i);
                 Usuarios min = new Usuarios();
-                double nCondDia = 0;
-                double supCondDia = x.Length / 5;
-                supCondDia = Math.Truncate(supCondDia) + 1;
-
-
-                if (x.Length == 1)
+                decimal nCondDia = 0;
+                decimal supCondDia = (decimal)sx.Length / 5;
+                if (supCondDia % 1 != 0)
                 {
-                    if (x[0].ConduceGS == false)
+                    supCondDia = Math.Truncate(supCondDia) + 1;
+
+                }
+
+
+                if (sx.Length == 1)
+                {
+                    if (sx[0].ConduceGS == false)
                     {
-                        x[0].ConduceGS = true;
-                        x[0].NVecesCondGS++;
+                        sx[0].ConduceGS = true;
+                        sx[0].NVecesCondGS++;
                         
                     }
 
-                }else if (x.Length > 1)
+                }else if (sx.Length > 1)
                 {
-              
+                    Usuarios[] Conductores = Array.FindAll(sx, element => element.ConduceGS == true);
+                    nCondDia = Conductores.Length;
+
+                    //foreach(Usuarios user in Conductores)
+                    //{
+                    //    user.NVecesCondGS++;
+                    //}
+
                     if (min.UsuarioGS == "NoName")
                     {
-                        min = x[0];
+                        min = sx[0];
                     }
 
                     while (nCondDia < supCondDia)
                     {
-                        for (int j = 1; j < x.Length; j++)
+                        for (int j = 1; j < sx.Length; j++)
                         {
 
-                            if (min.minNDiasCond(x[j]))
+                            if (min.minNDiasCond(sx[j]))
                             {
-                                min = x[j];
+                                min = sx[j];
                             }
 
                         }
-                        foreach (Usuarios user in x)
+                        foreach (Usuarios user in sx)
                         {
                             if (user.UsuarioGS == min.UsuarioGS)
                             {
@@ -382,11 +408,37 @@ namespace Proyecto
                 }
 
 
-                Usuarios[] usuarios = x.Select(a => (Usuarios)a.Clone()).ToArray();
-                UsuariosDiaHora.Add(new Tuple<string, string>(dia, "S" + i), usuarios);
+                Usuarios[] salidas = sx.Select(a => (Usuarios)a.Clone()).ToArray();
+ 
+                UsuariosDiaHora.Add(new Tuple<string, string>(dia, "S" + i), salidas);
+
+                foreach (Usuarios user in salidas)
+                {
+                    UsuariosSalida.Add(user);
+                }
             }
 
             ;
+
+
+            //Si se ha añadido algún nuevo conductor a la salida, se añadirá a la entrada
+            Usuarios[] UsuariosSalidaVector = UsuariosSalida.ToArray();
+            for(int i =1; i < 6; i++)
+            {
+                foreach(Usuarios user in UsuariosDiaHora[Tuple.Create(dia, "E"+i)])
+                {
+                    foreach(Usuarios userSalida in UsuariosSalidaVector)
+                    {
+                        if(userSalida.UsuarioGS == user.UsuarioGS && userSalida.ConduceGS != user.ConduceGS)
+                        {
+                            user.ConduceGS = true;
+                            user.NVecesCondGS++; ;
+                           
+
+                        }
+                    }
+                }
+            }
 
             //Actualizamos y reiniciamos los valores
             for(int n = 1; n< 6;n++)              
@@ -404,7 +456,7 @@ namespace Proyecto
         }
 
 
-        /*Preparacion de los datos de los conductores que van o vuelven solos
+        // conductores que van o vuelven solos, sin usar
         public static void CondSolitarioDia(ref Usuarios[] data)
         {
             List<Usuarios> CondSol = new List<Usuarios>();
@@ -449,7 +501,7 @@ namespace Proyecto
 
 
         }
-        */
+        
 
 
     }
