@@ -18,9 +18,8 @@ namespace Proyecto
         {
             string[] Dias = new string[] { "L", "M", "X", "J", "V" };
             
-            //Dictionary<string, Usuarios[]> UsuariosDia = new Dictionary<string, Usuarios[]>();
             int tam = funciones.nDatos();
-            //Las llaves son 
+            //Las llaves son una tupla con dos string, una definiendo el dia y otra la hora de entra o salida
 
             Dictionary< Tuple<string, string>, Usuarios[]> UsuariosDiaHora = new Dictionary<Tuple<string, string>, Usuarios[]>();
             Usuarios[] datos = new Usuarios[tam];
@@ -38,17 +37,22 @@ namespace Proyecto
                 
             }
 
-            Usuarios[] Prueba = UsuariosDiaHora[Tuple.Create("V", "E1")];
+
+            //Mostrar todos los datos ¿?¿?¿?¿?
+
+            //Pruebas
+
+            //Usuarios[] Prueba = UsuariosDiaHora[Tuple.Create("V", "E1")];
 
 
-            foreach (Usuarios user in Prueba)
-            {
-                Console.WriteLine(user.UsuarioGS);
-                Console.WriteLine(user.ConduceGS);
-                Console.WriteLine(user.NVecesCondGS);
+            //foreach (Usuarios user in Prueba)
+            //{
+            //    Console.WriteLine(user.UsuarioGS);
+            //    Console.WriteLine(user.ConduceGS);
+            //    Console.WriteLine(user.NVecesCondGS);
 
 
-            }
+            //}
             ////Application.Run(new Form1());*/
 
         }
