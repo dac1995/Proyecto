@@ -94,6 +94,7 @@ namespace Proyecto
 
         public object Clone()
         {
+           
             Usuarios a = new Usuarios(this.Usuario, this.Conduce, this.nVecesCond, this.Entrada, this.Salida);
             return a;
         }
@@ -263,7 +264,7 @@ namespace Proyecto
         }
 
         //Estructuración de los datos por dia, se guardan los datos en un diccionario
-        public static void EstructDia(string dia, ref Usuarios[] data, ref Dictionary<Tuple<string, string>, Usuarios[]> UsuariosDiaHora)
+        public static void EstructDia(string dia, ref Usuarios[] data, ref Dictionary<Tuple<string, string>, Usuarios[]> UsuariosDiaHora, int ncond=5)
         {
 
             List<Usuarios> UsuariosSalida = new List<Usuarios>();
@@ -276,7 +277,7 @@ namespace Proyecto
                 Usuarios[] ex = Array.FindAll(data, element => element.EntradaGS == i);
                 Usuarios min = new Usuarios();
                 decimal nCondDia = 0;
-                decimal supCondDia = (decimal)ex.Length / 5;
+                decimal supCondDia = (decimal)ex.Length / ncond;
 
                 if(supCondDia % 1 != 0)
                 {
@@ -350,7 +351,7 @@ namespace Proyecto
                 Usuarios[] sx = Array.FindAll(data, element => element.SalidaGS == i);
                 Usuarios min = new Usuarios();
                 decimal nCondDia = 0;
-                decimal supCondDia = (decimal)sx.Length / 5;
+                decimal supCondDia = (decimal)sx.Length / ncond;
                 if (supCondDia % 1 != 0)
                 {
                     supCondDia = Math.Truncate(supCondDia) + 1;
