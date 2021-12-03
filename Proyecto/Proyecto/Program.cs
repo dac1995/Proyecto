@@ -38,7 +38,7 @@ namespace Proyecto
                 
             }
 
-            Usuarios[] Prueba = UsuariosDiaHora[Tuple.Create("J", "E1")];
+            Usuarios[] Prueba = UsuariosDiaHora[Tuple.Create("V", "E1")];
 
 
             foreach (Usuarios user in Prueba)
@@ -270,13 +270,29 @@ namespace Proyecto
             List<Usuarios> UsuariosSalida = new List<Usuarios>();
 
             //Despues la entrada
+
+            Usuarios[] salSol = funciones.SalidasSol(data);
             for (int i = 1; i < 6; i++)
             {
                 //Coger x.length, dividir entre 5 y a partir de ahi cada 5, se mete un conductor, oon find buscamos los conductores por dia y finalmente creo una instancia de la clase para ver cual es el minimo
 
+
                 Usuarios[] ex = Array.FindAll(data, element => element.EntradaGS == i);
                 Usuarios min = new Usuarios();
                 decimal nCondDia = 0;
+                foreach (Usuarios user in ex)
+                {
+                    foreach(Usuarios userSalidaSol in salSol)
+                    {
+                        if (user.UsuarioGS == userSalidaSol.UsuarioGS)
+                        {
+                            user.ConduceGS = true;
+                            user.NVecesCondGS++;
+                            nCondDia++;
+                        }
+                    }
+                }
+                
                 decimal supCondDia = (decimal)ex.Length / ncond;
 
                 if(supCondDia % 1 != 0)
