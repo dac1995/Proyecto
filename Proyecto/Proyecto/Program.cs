@@ -501,7 +501,60 @@ namespace Proyecto
 
 
         }
-        
+
+        public static Usuarios[] SalidasSol( Usuarios[] datos)
+        {
+            List<Usuarios> Sol = new List<Usuarios>();
+
+            Usuarios[] data = datos.Select(a => (Usuarios)a.Clone()).ToArray();
+
+            for (int j = 2; j < 7; j++)
+            {
+                Usuarios[] x = Array.FindAll(data, element => element.SalidaGS == j);
+
+
+                if (x.Length == 1)
+                {
+                    if (x[0].ConduceGS == false)
+                    {
+                        x[0].ConduceGS = true;
+                        x[0].NVecesCondGS++;
+                        Sol.Add(x[0]);
+                    }
+
+                }
+
+            }
+
+            return Sol.ToArray();
+        }
+
+        public static Usuarios[] EntradasSol(Usuarios[] datos)
+        {
+            List<Usuarios> Sol = new List<Usuarios>();
+
+            Usuarios[] data = datos.Select(a => (Usuarios)a.Clone()).ToArray();
+
+            for (int j = 1; j < 6; j++)
+            {
+                Usuarios[] x = Array.FindAll(data, element => element.EntradaGS == j);
+
+
+                if (x.Length == 1)
+                {
+                    if (x[0].ConduceGS == false)
+                    {
+                        x[0].ConduceGS = true;
+                        x[0].NVecesCondGS++;
+                        Sol.Add(x[0]);
+                    }
+
+                }
+
+            }
+
+            return Sol.ToArray();
+        }
 
 
     }
