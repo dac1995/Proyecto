@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data;
+
 
 namespace Proyecto
 {
@@ -37,8 +39,75 @@ namespace Proyecto
                 
             }
 
+            Dictionary<string, DataTable> pairs = new Dictionary<string, DataTable>();
+            foreach(string d in Dias)
+            {
+                
+                DataTable tabla = new DataTable(d);
+                DataColumn col1 = new DataColumn("Hora");
+                DataColumn col2 = new DataColumn("Conduce");
+                DataColumn col3 = new DataColumn("No Conduce");
+                tabla.Columns.Add(col1);
+                tabla.Columns.Add(col2);
+                tabla.Columns.Add(col3);
 
-            //Mostrar todos los datos ¿?¿?¿?¿?
+                for(int i = 1; i < 6; i++){
+                    Usuarios[] hort = UsuariosDiaHora[Tuple.Create(d,"E"+i)];
+                    DataRow row = tabla.NewRow();
+
+                    row["Hora"] = "Entrada "+i+"ª hora";
+                    
+                    Usuarios[] horaCon = Array.FindAll(hort, element => element.ConduceGS == true);
+                    foreach(Usuarios user in horaCon){
+
+                        row["Conduce"] = row["Conduce"] + user.UsuarioGS+"; ";
+                    }
+
+
+                    Usuarios[] horaNo = Array.FindAll(hort, element => element.ConduceGS == false);
+                    foreach (Usuarios user in horaNo)
+                    {
+
+                        row["No Conduce"] = row["No Conduce"] + user.UsuarioGS + "; ";
+                    }
+
+                    tabla.Rows.Add(row);
+
+                }
+
+                for (int i = 2; i <= 6; i++)
+                {
+                    Usuarios[] hort = UsuariosDiaHora[Tuple.Create(d, "S" + i)];
+                    DataRow row = tabla.NewRow();
+
+                    row["Hora"] = "Salida " + i + "ª hora";
+
+                    Usuarios[] horaCon = Array.FindAll(hort, element => element.ConduceGS == true);
+                    foreach (Usuarios user in horaCon)
+                    {
+
+                        row["Conduce"] = row["Conduce"] + user.UsuarioGS + "; ";
+                    }
+
+
+                    Usuarios[] horaNo = Array.FindAll(hort, element => element.ConduceGS == false);
+                    foreach (Usuarios user in horaNo)
+                    {
+
+                        row["No Conduce"] = row["No Conduce"] + user.UsuarioGS + "; ";
+                    }
+
+                    tabla.Rows.Add(row);
+                }
+
+
+                pairs.Add(d, tabla);
+                string log = funciones.getLogString() + DateTime.Today.ToString("yyyy-M-dd") + d + ".xml";
+                tabla.WriteXml(log);
+
+
+            }
+            
 
             //Pruebas
 
@@ -53,7 +122,7 @@ namespace Proyecto
 
 
             //}
-            ////Application.Run(new Form1());*/
+            Application.Run(new Viajes(datos, pairs));
 
         }
 
@@ -135,6 +204,16 @@ namespace Proyecto
             string connectionString = string.Format("Data Source={0};Version=3;Pooling=True;Max Pool Size=100;", absolutePath);
 
             return connectionString;
+        }public static string getLogString()
+        {
+            
+            
+            string relativePath = @"Proyecto\log\";
+            var parentdir = Path.GetDirectoryName(Application.StartupPath);
+            string myString = parentdir.Remove(parentdir.Length - 31, 31);
+            string absolutePath = Path.Combine(myString, relativePath);
+
+            return absolutePath;
         }
 
         //Devuelve el numero de datos que hay en la base de datos
