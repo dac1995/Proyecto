@@ -42,5 +42,31 @@ namespace Proyecto
         {
 
         }
+
+        private void Viajes_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        //Actualizar datos
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            funciones.ActualizarBaseDeDatos(this.usuarios);
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("¿Está usted seguro?", "Seguridad", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+               funciones.RestaurarBaseDeDatos();
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                //nothing
+            }
+        }
     }
 }

@@ -102,8 +102,8 @@ namespace Proyecto
 
 
                 pairs.Add(d, tabla);
-                string log = funciones.getLogString() + DateTime.Today.ToString("yyyy-M-dd") + d + ".xml";
-                tabla.WriteXml(log);
+                //string log = funciones.getLogString() + DateTime.Now.ToString("yyyy-M-dd HH_mm_ss") + d + ".xml";
+                //tabla.WriteXml(log);
 
 
             }
@@ -195,8 +195,8 @@ namespace Proyecto
         //Funcion para coger el String de conexion, dando igual donde este localizado el proyecto (Teniendo que estar la base de datos en su respectivo sitio en el proyecto)
         public static string getConnectionString()
         {
-            
-            
+
+
             string relativePath = @"Proyecto\\Datos.db";
             var parentdir = Path.GetDirectoryName(Application.StartupPath);
             string myString = parentdir.Remove(parentdir.Length - 31, 31);
@@ -204,10 +204,11 @@ namespace Proyecto
             string connectionString = string.Format("Data Source={0};Version=3;Pooling=True;Max Pool Size=100;", absolutePath);
 
             return connectionString;
-        }public static string getLogString()
+        }
+        public static string getLogString()
         {
-            
-            
+
+
             string relativePath = @"Proyecto\log\";
             var parentdir = Path.GetDirectoryName(Application.StartupPath);
             string myString = parentdir.Remove(parentdir.Length - 31, 31);
@@ -253,7 +254,7 @@ namespace Proyecto
                 var command = connection.CreateCommand();
                 command.CommandText =
                 @"
-                SELECT Usuario
+                SELECT Usuario, NDiasCond
                 FROM Usuarios
                 
                 ";
@@ -263,9 +264,10 @@ namespace Proyecto
                     while (reader.Read())
                     {
                         var name = reader.GetString(0);
+                        var n = reader.GetInt32(1);
 
 
-                        datos[i] = new Usuarios(name, 0);
+                        datos[i] = new Usuarios(name, n);
                         i++;
                     }
                 }
@@ -347,7 +349,7 @@ namespace Proyecto
         }
 
         //Estructuración de los datos por dia, se guardan los datos en un diccionario
-        public static void EstructDia(string dia, ref Usuarios[] data, ref Dictionary<Tuple<string, string>, Usuarios[]> UsuariosDiaHora, int ncond=5)
+        public static void EstructDia(string dia, ref Usuarios[] data, ref Dictionary<Tuple<string, string>, Usuarios[]> UsuariosDiaHora, int ncond = 5)
         {
 
             List<Usuarios> UsuariosSalida = new List<Usuarios>();
@@ -365,7 +367,7 @@ namespace Proyecto
                 decimal nCondDia = 0;
                 foreach (Usuarios user in ex)
                 {
-                    foreach(Usuarios userSalidaSol in salSol)
+                    foreach (Usuarios userSalidaSol in salSol)
                     {
                         if (user.UsuarioGS == userSalidaSol.UsuarioGS)
                         {
@@ -375,10 +377,10 @@ namespace Proyecto
                         }
                     }
                 }
-                
+
                 decimal supCondDia = (decimal)ex.Length / ncond;
 
-                if(supCondDia % 1 != 0)
+                if (supCondDia % 1 != 0)
                 {
                     supCondDia = Math.Truncate(supCondDia) + 1;
 
@@ -389,16 +391,18 @@ namespace Proyecto
                 {
                     ex[0].ConduceGS = true;
                     ex[0].NVecesCondGS++;
-                   
-                } else if (ex.Length > 1)
+
+                }
+                else if (ex.Length > 1)
                 {
-                    
+
                     if (min.UsuarioGS == "NoName")
                     {
                         min = ex[0];
                     }
 
-                    foreach(Usuarios user in ex){
+                    foreach (Usuarios user in ex)
+                    {
                         if (user.ConduceGS == true)
                             nCondDia++;
                     }
@@ -426,13 +430,13 @@ namespace Proyecto
 
                         nCondDia++;
                     }
- 
+
                 }
 
-                
+
                 Usuarios[] entradas = ex.Select(a => (Usuarios)a.Clone()).ToArray();
-                
-                UsuariosDiaHora.Add(new Tuple<string,string>(dia, "E" + i), entradas);
+
+                UsuariosDiaHora.Add(new Tuple<string, string>(dia, "E" + i), entradas);
                 //Console.WriteLine(x.Length);
                 //for (int j = 0; j < x.Length; j++)
                 //{
@@ -464,10 +468,11 @@ namespace Proyecto
                     {
                         sx[0].ConduceGS = true;
                         sx[0].NVecesCondGS++;
-                        
+
                     }
 
-                }else if (sx.Length > 1)
+                }
+                else if (sx.Length > 1)
                 {
                     Usuarios[] Conductores = Array.FindAll(sx, element => element.ConduceGS == true);
                     nCondDia = Conductores.Length;
@@ -509,7 +514,7 @@ namespace Proyecto
 
 
                 Usuarios[] salidas = sx.Select(a => (Usuarios)a.Clone()).ToArray();
- 
+
                 UsuariosDiaHora.Add(new Tuple<string, string>(dia, "S" + i), salidas);
 
                 foreach (Usuarios user in salidas)
@@ -523,17 +528,17 @@ namespace Proyecto
 
             //Si se ha añadido algún nuevo conductor a la salida, se añadirá a la entrada
             Usuarios[] UsuariosSalidaVector = UsuariosSalida.ToArray();
-            for(int i =1; i < 6; i++)
+            for (int i = 1; i < 6; i++)
             {
-                foreach(Usuarios user in UsuariosDiaHora[Tuple.Create(dia, "E"+i)])
+                foreach (Usuarios user in UsuariosDiaHora[Tuple.Create(dia, "E" + i)])
                 {
-                    foreach(Usuarios userSalida in UsuariosSalidaVector)
+                    foreach (Usuarios userSalida in UsuariosSalidaVector)
                     {
-                        if(userSalida.UsuarioGS == user.UsuarioGS && userSalida.ConduceGS != user.ConduceGS)
+                        if (userSalida.UsuarioGS == user.UsuarioGS && userSalida.ConduceGS != user.ConduceGS)
                         {
                             user.ConduceGS = true;
                             user.NVecesCondGS++; ;
-                           
+
 
                         }
                     }
@@ -541,13 +546,13 @@ namespace Proyecto
             }
 
             //Actualizamos y reiniciamos los valores
-            for(int n = 1; n< 6;n++)              
+            for (int n = 1; n < 6; n++)
             {
-                if(n<6)
-                ActualizarDatos(ref data, UsuariosDiaHora[Tuple.Create(dia, "E" + n)]);
+                if (n < 6)
+                    ActualizarDatos(ref data, UsuariosDiaHora[Tuple.Create(dia, "E" + n)]);
 
-                if(n>1)
-                ActualizarDatos(ref data, UsuariosDiaHora[Tuple.Create(dia, "S" + n)]);
+                if (n > 1)
+                    ActualizarDatos(ref data, UsuariosDiaHora[Tuple.Create(dia, "S" + n)]);
 
             }
 
@@ -602,7 +607,7 @@ namespace Proyecto
 
         }
 
-        public static Usuarios[] SalidasSol( Usuarios[] datos)
+        public static Usuarios[] SalidasSol(Usuarios[] datos)
         {
             List<Usuarios> Sol = new List<Usuarios>();
 
@@ -656,6 +661,53 @@ namespace Proyecto
             return Sol.ToArray();
         }
 
+        public static void ActualizarBaseDeDatos(Usuarios[] users)
+        {
+            using (var connection = new SQLiteConnection(funciones.getConnectionString()))
+            {
+                connection.Open();
 
+                foreach (Usuarios user in users)
+                {
+                    var command = connection.CreateCommand();
+                    command.CommandText =
+                    @"
+                    Update Usuarios
+                    Set NDiasCond = $dc
+                    WHERE Usuario = $id
+                     ";
+
+                    command.Parameters.AddWithValue("$dc", user.NVecesCondGS);
+                    command.Parameters.AddWithValue("$id", user.UsuarioGS);
+
+
+                    command.ExecuteNonQuery();
+
+
+                }
+
+            }
+        }
+
+
+        public static void RestaurarBaseDeDatos()
+        {
+            using (var connection = new SQLiteConnection(funciones.getConnectionString()))
+            {
+                connection.Open();
+
+                var command = connection.CreateCommand();
+                command.CommandText =
+                @"
+                Update Usuarios
+                Set NDiasCond = 0;
+                ";
+
+                command.ExecuteNonQuery();
+            }
+
+        }
     }
+
+
 }
