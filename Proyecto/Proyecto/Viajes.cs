@@ -68,5 +68,13 @@ namespace Proyecto
                 //nothing
             }
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+            Gestion gestion = new Gestion();
+            gestion.Show();
+
+        }
     }
 }
