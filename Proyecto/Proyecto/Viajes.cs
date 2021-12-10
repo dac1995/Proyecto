@@ -65,7 +65,7 @@ namespace Proyecto
                 tabla.Columns.Add(col2);
                 tabla.Columns.Add(col3);
 
-                for (int i = 1; i < 6; i++)
+                for (int i = 1; i < 7; i++)
                 {
                     Usuarios[] hort = UsuariosDiaHora[Tuple.Create(d, "E" + i)];
                     DataRow row = tabla.NewRow();
@@ -91,7 +91,7 @@ namespace Proyecto
 
                 }
 
-                for (int i = 2; i <= 6; i++)
+                for (int i = 1; i < 7; i++)
                 {
                     Usuarios[] hort = UsuariosDiaHora[Tuple.Create(d, "S" + i)];
                     DataRow row = tabla.NewRow();

@@ -358,7 +358,7 @@ namespace Proyecto
             //Despues la entrada
 
             Usuarios[] salSol = funciones.SalidasSol(data);
-            for (int i = 1; i < 6; i++)
+            for (int i = 1; i < 7; i++)
             {
                 //Coger x.length, dividir entre 5 y a partir de ahi cada 5, se mete un conductor, oon find buscamos los conductores por dia y finalmente creo una instancia de la clase para ver cual es el minimo
 
@@ -448,7 +448,7 @@ namespace Proyecto
 
             //Finalmente la salida
 
-            for (int i = 2; i < 7; i++)
+            for (int i = 1; i < 7; i++)
             {
                 //Coger x.length, dividir entre 5 y a partir de ahi cada 5, se mete un conductor, oon find buscamos los conductores por dia y finalmente creo una instancia de la clase para ver cual es el minimo
 
@@ -529,7 +529,7 @@ namespace Proyecto
 
             //Si se ha añadido algún nuevo conductor a la salida, se añadirá a la entrada
             Usuarios[] UsuariosSalidaVector = UsuariosSalida.ToArray();
-            for (int i = 1; i < 6; i++)
+            for (int i = 1; i < 7; i++)
             {
                 foreach (Usuarios user in UsuariosDiaHora[Tuple.Create(dia, "E" + i)])
                 {
@@ -547,12 +547,12 @@ namespace Proyecto
             }
 
             //Actualizamos y reiniciamos los valores
-            for (int n = 1; n < 6; n++)
+            for (int n = 1; n < 7; n++)
             {
-                if (n < 6)
+                //if (n < 6)
                     ActualizarDatos(ref data, UsuariosDiaHora[Tuple.Create(dia, "E" + n)]);
 
-                if (n > 1)
+                //f (n > 1)
                     ActualizarDatos(ref data, UsuariosDiaHora[Tuple.Create(dia, "S" + n)]);
 
             }
@@ -567,7 +567,7 @@ namespace Proyecto
         {
             List<Usuarios> CondSol = new List<Usuarios>();
 
-            for (int i = 1; i < 6; i++)
+            for (int i = 1; i < 7; i++)
             {
                 Usuarios[] x = Array.FindAll(data, element => element.EntradaGS == i);
 
@@ -581,7 +581,7 @@ namespace Proyecto
 
             }
 
-            for (int j = 2; j < 7; j++)
+            for (int j = 1; j < 7; j++)
             {
                 Usuarios[] x = Array.FindAll(data, element => element.SalidaGS == j);
 
@@ -614,7 +614,7 @@ namespace Proyecto
 
             Usuarios[] data = datos.Select(a => (Usuarios)a.Clone()).ToArray();
 
-            for (int j = 2; j < 7; j++)
+            for (int j = 1; j < 7; j++)
             {
                 Usuarios[] x = Array.FindAll(data, element => element.SalidaGS == j);
 
@@ -641,7 +641,7 @@ namespace Proyecto
 
             Usuarios[] data = datos.Select(a => (Usuarios)a.Clone()).ToArray();
 
-            for (int j = 1; j < 6; j++)
+            for (int j = 1; j < 7; j++)
             {
                 Usuarios[] x = Array.FindAll(data, element => element.EntradaGS == j);
 
