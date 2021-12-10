@@ -232,7 +232,7 @@ namespace Proyecto
                 @"
                 SELECT count(*)
                 FROM Usuarios
-                
+                Where Baja = false;
                 ";
 
                 x = int.Parse(command.ExecuteScalar().ToString());
@@ -257,7 +257,7 @@ namespace Proyecto
                 @"
                 SELECT Usuario, NDiasCond
                 FROM Usuarios
-                
+                Where Baja = false;
                 ";
 
                 using (var reader = command.ExecuteReader())
