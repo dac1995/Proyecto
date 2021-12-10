@@ -10,7 +10,6 @@ C:\Users\estudiante\Documents\GitHub\Proyecto\Proyecto\Proyecto\bin\Debug\Entity
 C:\Users\estudiante\Documents\GitHub\Proyecto\Proyecto\Proyecto\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\estudiante\Documents\GitHub\Proyecto\Proyecto\Proyecto\bin\Debug\System.Data.SQLite.xml
 C:\Users\estudiante\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyecto.csproj.AssemblyReference.cache
-C:\Users\estudiante\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyecto.Form1.resources
 C:\Users\estudiante\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyecto.Properties.Resources.resources
 C:\Users\estudiante\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyecto.csproj.GenerateResource.cache
 C:\Users\estudiante\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyecto.csproj.CoreCompileInputs.cache
@@ -35,3 +34,5 @@ C:\Users\ara15\OneDrive\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Pr
 C:\Users\ara15\OneDrive\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyecto.pdb
 C:\Users\ara15\OneDrive\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyecto.Viajes.resources
 C:\Users\ara15\OneDrive\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyecto.Gestion.resources
+C:\Users\estudiante\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyecto.Gestion.resources
+C:\Users\estudiante\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyecto.Viajes.resources

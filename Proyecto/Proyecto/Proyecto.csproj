@@ -72,6 +72,12 @@
     <Compile Include="Gestion.Designer.cs">
       <DependentUpon>Gestion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Insertar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Insertar.Designer.cs">
+      <DependentUpon>Insertar.cs</DependentUpon>
+    </Compile>
     <Compile Include="TwoKey.cs" />
     <Compile Include="Viajes.cs">
       <SubType>Form</SubType>
