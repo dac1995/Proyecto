@@ -90,6 +90,9 @@
     <EmbeddedResource Include="Gestion.resx">
       <DependentUpon>Gestion.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Insertar.resx">
+      <DependentUpon>Insertar.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Viajes.resx">
       <DependentUpon>Viajes.cs</DependentUpon>
     </EmbeddedResource>

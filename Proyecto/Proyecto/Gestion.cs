@@ -113,19 +113,19 @@ namespace Proyecto
 
 
             }
+            this.Close();
+            Gestion gestion = new Gestion();
+            gestion.ShowDialog();
 
-            dataGridView1.Update();
-            dataGridView1.Refresh();
         }
 
         //Insertar datos
         private void button3_Click(object sender, EventArgs e)
         {
+            this.Close();
             Insertar insertar = new Insertar();
             insertar.ShowDialog();
 
-            dataGridView1.Update();
-            dataGridView1.Refresh();
         }
     }
 }
