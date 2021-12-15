@@ -289,9 +289,6 @@ namespace Proyecto
                 {
                     CargarDiaUsuario(dia, ref data[i], command);
                 }
-
-
-
             }
         }
 
@@ -355,17 +352,21 @@ namespace Proyecto
 
             List<Usuarios> UsuariosSalida = new List<Usuarios>();
 
-            //Despues la entrada
+            //la entrada, primero conseguimos un vector con todos los datos clonados que sean los usuarios que se van solos
 
             Usuarios[] salSol = funciones.SalidasSol(data);
             for (int i = 1; i < 7; i++)
             {
-                //Coger x.length, dividir entre 5 y a partir de ahi cada 5, se mete un conductor, oon find buscamos los conductores por dia y finalmente creo una instancia de la clase para ver cual es el minimo
+                //Coger x.length, dividir entre el numero de plazas y a partir de ahi cada x, se mete un conductor, 
+                //con find buscamos los conductores por dia y finalmente creo una instancia de la clase para ver cual es el minimo
+                //gracias a la funcion de la clase min, podre saber cual es el minimo
 
 
                 Usuarios[] ex = Array.FindAll(data, element => element.EntradaGS == i);
                 Usuarios min = new Usuarios();
                 decimal nCondDia = 0;
+                //buscamos en el vector clonado quien se va solo, para tenerlo en cuenta
+                //Dejando así un hueco, para más adelante
                 foreach (Usuarios user in ex)
                 {
                     foreach (Usuarios userSalidaSol in salSol)
@@ -378,7 +379,7 @@ namespace Proyecto
                         }
                     }
                 }
-
+                //numero de conductores supuesto
                 decimal supCondDia = (decimal)ex.Length / ncond;
 
                 if (supCondDia % 1 != 0)
@@ -387,13 +388,13 @@ namespace Proyecto
 
                 }
 
-
+                //Si solo hay un usuario, siempre será conductor
                 if (ex.Length == 1)
                 {
                     ex[0].ConduceGS = true;
                     ex[0].NVecesCondGS++;
 
-                }
+                } //si hay más de uno se descubrirá quien ha conducido menos, y ellos será los posibles conductores
                 else if (ex.Length > 1)
                 {
 
@@ -434,24 +435,18 @@ namespace Proyecto
 
                 }
 
-
+                //Creamos el vector en el diccionario clonando para evitar errores
                 Usuarios[] entradas = ex.Select(a => (Usuarios)a.Clone()).ToArray();
 
                 UsuariosDiaHora.Add(new Tuple<string, string>(dia, "E" + i), entradas);
-                //Console.WriteLine(x.Length);
-                //for (int j = 0; j < x.Length; j++)
-                //{
-                //    Console.WriteLine(x[j].UsuarioGS);
 
-                //}
             }
 
             //Finalmente la salida
 
             for (int i = 1; i < 7; i++)
             {
-                //Coger x.length, dividir entre 5 y a partir de ahi cada 5, se mete un conductor, oon find buscamos los conductores por dia y finalmente creo una instancia de la clase para ver cual es el minimo
-
+                //Será hacer la misma ejecución de antes, teniendo en cuenta quien ha conducido de antes
                 Usuarios[] sx = Array.FindAll(data, element => element.SalidaGS == i);
                 Usuarios min = new Usuarios();
                 decimal nCondDia = 0;
@@ -528,6 +523,7 @@ namespace Proyecto
 
 
             //Si se ha añadido algún nuevo conductor a la salida, se añadirá a la entrada
+            //Rellenando así el hueco que hemos dejado anteriormente
             Usuarios[] UsuariosSalidaVector = UsuariosSalida.ToArray();
             for (int i = 1; i < 7; i++)
             {
@@ -571,14 +567,12 @@ namespace Proyecto
             {
                 Usuarios[] x = Array.FindAll(data, element => element.EntradaGS == i);
 
-
                 if (x.Length == 1)
                 {
                     x[0].ConduceGS = true;
                     x[0].NVecesCondGS++;
                     CondSol.Add(x[0]);
                 }
-
             }
 
             for (int j = 1; j < 7; j++)
@@ -596,18 +590,11 @@ namespace Proyecto
                     }
 
                 }
-
             }
-
             Usuarios[] usuariosSol = CondSol.ToArray();
-
             ActualizarDatos(ref data, usuariosSol);
-
-
-
-
         }
-
+        //Los usuarios que conducen de vuelta solos, se obtienen antes para una mejor representación de los datos.
         public static Usuarios[] SalidasSol(Usuarios[] datos)
         {
             List<Usuarios> Sol = new List<Usuarios>();
