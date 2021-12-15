@@ -118,7 +118,7 @@ namespace Proyecto
 
 
                 pairs.Add(d, tabla);
-                //string log = funciones.getLogString() + DateTime.Now.ToString("yyyy-M-dd HH_mm_ss") + d + ".xml";
+                //string log = funciones.getLogString() + DateTime.Now.ToString("yyyy-M-dd HH_mm_ss") + d + zona + ".xml";
                 //tabla.WriteXml(log);
 
 
