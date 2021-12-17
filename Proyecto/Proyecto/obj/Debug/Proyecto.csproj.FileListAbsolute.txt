@@ -37,3 +37,4 @@ C:\Users\ara15\OneDrive\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Pr
 C:\Users\estudiante\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyecto.Gestion.resources
 C:\Users\estudiante\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyecto.Viajes.resources
 C:\Users\estudiante\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyecto.Insertar.resources
+C:\Users\estudiante\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyecto.Inicio.resources

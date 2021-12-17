@@ -14,6 +14,8 @@ namespace Proyecto
     public partial class Viajes : Form
     {
         Usuarios[] usuarios;
+        //Dictionary<string, DataTable> pairs;
+        String zona;
 
         public Viajes(Usuarios[] Data, Dictionary<string, DataTable> pairs)
         {
@@ -27,21 +29,22 @@ namespace Proyecto
             dataV.DataSource = pairs["V"];
             
         }
-        public Viajes()
+        public Viajes(String zona)
         {
             
             InitializeComponent();
-
+            DialogResult dialogResult = MessageBox.Show("¿Desea guardar los datos en un registro?", "Log", MessageBoxButtons.YesNo);
+            this.zona = zona;
             string[] Dias = new string[] { "L", "M", "X", "J", "V" };
-
-            int tam = funciones.nDatos();
+            this.Text = this.Text + " " + zona;
+            int tam = funciones.nDatos(zona);
             //Las llaves son una tupla con dos string, una definiendo el dia y otra la hora de entra o salida
 
             Dictionary<Tuple<string, string>, Usuarios[]> UsuariosDiaHora = new Dictionary<Tuple<string, string>, Usuarios[]>();
             Usuarios[] datos = new Usuarios[tam];
             Application.EnableVisualStyles();
            // Application.SetCompatibleTextRenderingDefault(false);
-            datos = funciones.CargarDatos(tam);
+            datos = funciones.CargarDatos(tam,zona);
             //Console.WriteLine(datos.Length);
             //Console.WriteLine(datos[1].UsuarioGS);
             //Console.WriteLine(datos[1].EntradaGS);
@@ -118,9 +121,21 @@ namespace Proyecto
 
 
                 pairs.Add(d, tabla);
-                //string log = funciones.getLogString() + DateTime.Now.ToString("yyyy-M-dd HH_mm_ss") + d + zona + ".xml";
-                //tabla.WriteXml(log);
 
+                
+                if (dialogResult == DialogResult.Yes)
+                {
+
+                    string log = funciones.getLogString() + DateTime.Now.ToString("yyyy-M-dd_HH_mm_ss") + d + zona + ".xml";
+                    tabla.WriteXml(log);
+
+
+                }
+                else if (dialogResult == DialogResult.No)
+                {
+                    //nothing
+                }
+               
 
             }
 
@@ -158,12 +173,23 @@ namespace Proyecto
         private void button1_Click(object sender, EventArgs e)
         {
 
-            funciones.ActualizarBaseDeDatos(this.usuarios);
-            this.Hide();
-            Viajes viajes = new Viajes();
-            viajes.ShowDialog();
+            DialogResult dialogResult = MessageBox.Show("¿Está usted seguro?", "Seguridad", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                funciones.ActualizarBaseDeDatos(this.usuarios);
+                this.Close();
+                Viajes viajes = new Viajes(this.zona);
+                viajes.Show();
 
-            this.Close();
+                
+
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                //nothing
+            }
+
+           
 
         }
 
@@ -172,12 +198,13 @@ namespace Proyecto
             DialogResult dialogResult = MessageBox.Show("¿Está usted seguro?", "Seguridad", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-               funciones.RestaurarBaseDeDatos();
-                this.Hide();
-                Viajes viajes = new Viajes();
-                viajes.ShowDialog();
-
                 this.Close();
+                funciones.RestaurarBaseDeDatos();
+                
+                Viajes viajes = new Viajes(this.zona);
+                viajes.Show();
+
+               
 
             }
             else if (dialogResult == DialogResult.No)
@@ -189,8 +216,8 @@ namespace Proyecto
         private void button3_Click(object sender, EventArgs e)
         {
 
-            Gestion gestion = new Gestion();
-            gestion.Show();
+            Gestion gestion = new Gestion(this.zona);
+            gestion.ShowDialog();
 
         }
     }

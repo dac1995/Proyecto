@@ -52,6 +52,8 @@ namespace Proyecto
             this.SV = new System.Windows.Forms.NumericUpDown();
             this.user = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.label12 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.EL)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SL)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.EM)).BeginInit();
@@ -393,7 +395,7 @@ namespace Proyecto
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(271, 334);
+            this.button1.Location = new System.Drawing.Point(271, 380);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 22;
@@ -401,11 +403,31 @@ namespace Proyecto
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(17, 347);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(32, 13);
+            this.label12.TabIndex = 23;
+            this.label12.Text = "Zona";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(136, 339);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.TabIndex = 24;
+            // 
             // Insertar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(358, 369);
+            this.ClientSize = new System.Drawing.Size(358, 415);
+            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.label12);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.user);
             this.Controls.Add(this.SV);
@@ -471,5 +493,7 @@ namespace Proyecto
         private System.Windows.Forms.NumericUpDown SV;
         private System.Windows.Forms.TextBox user;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }

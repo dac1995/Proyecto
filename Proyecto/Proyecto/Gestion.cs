@@ -41,6 +41,35 @@ namespace Proyecto
 
             }
         }
+        public Gestion(String zona)
+        {
+
+            DataGridView dView = new DataGridView();
+
+            InitializeComponent();
+
+            using (var connection = new SQLiteConnection(funciones.getConnectionString()))
+            {
+                connection.Open();
+
+                var command = connection.CreateCommand();
+                command.CommandText =
+                @"
+                SELECT *
+                FROM Usuarios
+                Where Zona = $z
+                ";
+                command.Parameters.AddWithValue("$z", zona);
+
+                SQLiteDataAdapter adapter = new SQLiteDataAdapter(command.CommandText,connection);
+                DataSet dataSet = new DataSet();
+                adapter.SelectCommand.Parameters.AddWithValue("$z", zona);
+                adapter.Fill(dataSet);
+                dataGridView1.DataSource = dataSet.Tables[0];
+
+
+            }
+        }
 
         private void Gestion_Load(object sender, EventArgs e)
         {
@@ -93,29 +122,42 @@ namespace Proyecto
         //Eliminar fila
         private void button2_Click(object sender, EventArgs e)
         {
-            using (var connection = new SQLiteConnection(funciones.getConnectionString()))
+
+            DialogResult dialogResult = MessageBox.Show("¿Está usted seguro de borrar?", "Seguridad", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
             {
-                connection.Open();
 
-                var command = connection.CreateCommand();
-                command.CommandText =
-                @"
-                DELETE
-                FROM Usuarios
-                WHERE Usuario = @user
-                ";
-
-                foreach (DataGridViewRow row in this.dataGridView1.SelectedRows)
+                using (var connection = new SQLiteConnection(funciones.getConnectionString()))
                 {
-                    command.Parameters.AddWithValue("@user", row.Cells[0].Value);
-                    command.ExecuteNonQuery();
+                    connection.Open();
+
+                    var command = connection.CreateCommand();
+                    command.CommandText =
+                    @"
+                    DELETE
+                    FROM Usuarios
+                    WHERE Usuario = @user
+                    ";
+
+                    foreach (DataGridViewRow row in this.dataGridView1.SelectedRows)
+                    {
+                        command.Parameters.AddWithValue("@user", row.Cells[0].Value);
+                        command.ExecuteNonQuery();
+                    }
+
+
                 }
+                this.Close();
+                Gestion gestion = new Gestion();
+                gestion.ShowDialog();
 
 
             }
-            this.Close();
-            Gestion gestion = new Gestion();
-            gestion.ShowDialog();
+            else if (dialogResult == DialogResult.No)
+            {
+                //nothing
+            }
+            
 
         }
 

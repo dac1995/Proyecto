@@ -123,7 +123,7 @@ namespace Proyecto
 
             //}
             //Application.Run(new Viajes(datos, pairs));
-            Application.Run(new Viajes());
+            Application.Run(new Inicio());
 
         }
 
@@ -219,7 +219,7 @@ namespace Proyecto
         }
 
         //Devuelve el numero de datos que hay en la base de datos
-        public static int nDatos()
+        public static int nDatos(String zona)
         {
             int x = -1;
 
@@ -232,9 +232,9 @@ namespace Proyecto
                 @"
                 SELECT count(*)
                 FROM Usuarios
-                Where Baja = false;
+                Where Baja = false AND Zona = $z;
                 ";
-
+                command.Parameters.AddWithValue("$z", zona);
                 x = int.Parse(command.ExecuteScalar().ToString());
 
 
@@ -244,7 +244,7 @@ namespace Proyecto
         }
 
         //Devuelve el array de usuarios 
-        public static Usuarios[] CargarDatos(int x)
+        public static Usuarios[] CargarDatos(int x, String zona)
         {
             Usuarios[] datos = new Usuarios[x];
             int i = 0;
@@ -257,9 +257,9 @@ namespace Proyecto
                 @"
                 SELECT Usuario, NDiasCond
                 FROM Usuarios
-                Where Baja = false;
+                Where Baja = false AND Zona = $z;
                 ";
-
+                command.Parameters.AddWithValue("$z", zona);
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
@@ -695,7 +695,34 @@ namespace Proyecto
             }
 
         }
+
+        public static DataSet fillDropDown()
+        {
+            DataSet dataSet = new DataSet();
+
+            using (var connection = new SQLiteConnection(funciones.getConnectionString()))
+            {
+                connection.Open();
+
+                var command = connection.CreateCommand();
+                command.CommandText =
+                @"
+                SELECT Nombre
+                FROM Zonas;
+                
+                ";
+
+                SQLiteDataAdapter adapter = new SQLiteDataAdapter(command.CommandText, connection);
+                adapter.Fill(dataSet);
+                
+
+            }
+
+            return dataSet;
+        }
+
     }
+
 
 
 }

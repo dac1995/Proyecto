@@ -1,0 +1,51 @@
+<?xml version="1.0" standalone="yes"?>
+<DocumentElement>
+  <V>
+    <Hora>Entrada 1ª hora</Hora>
+    <Conduce>C; F; Af; ; </Conduce>
+    <No_x0020_Conduce>J; L; M; P; Cdo; </No_x0020_Conduce>
+  </V>
+  <V>
+    <Hora>Entrada 2ª hora</Hora>
+    <Conduce>R; </Conduce>
+    <No_x0020_Conduce>G; Je; </No_x0020_Conduce>
+  </V>
+  <V>
+    <Hora>Entrada 3ª hora</Hora>
+    <Conduce>E; </Conduce>
+  </V>
+  <V>
+    <Hora>Entrada 4ª hora</Hora>
+  </V>
+  <V>
+    <Hora>Entrada 5ª hora</Hora>
+  </V>
+  <V>
+    <Hora>Entrada 6ª hora</Hora>
+  </V>
+  <V>
+    <Hora>Salida 1ª hora</Hora>
+    <Conduce>; </Conduce>
+  </V>
+  <V>
+    <Hora>Salida 2ª hora</Hora>
+    <Conduce>Af; </Conduce>
+  </V>
+  <V>
+    <Hora>Salida 3ª hora</Hora>
+    <Conduce>F; </Conduce>
+  </V>
+  <V>
+    <Hora>Salida 4ª hora</Hora>
+  </V>
+  <V>
+    <Hora>Salida 5ª hora</Hora>
+    <Conduce>C; </Conduce>
+    <No_x0020_Conduce>M; Cdo; Je; </No_x0020_Conduce>
+  </V>
+  <V>
+    <Hora>Salida 6ª hora</Hora>
+    <Conduce>E; R; </Conduce>
+    <No_x0020_Conduce>J; G; L; P; </No_x0020_Conduce>
+  </V>
+</DocumentElement>

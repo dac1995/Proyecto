@@ -17,6 +17,11 @@ namespace Proyecto
         public Insertar()
         {
             InitializeComponent();
+            DataSet dataSet = funciones.fillDropDown();
+
+            comboBox1.DataSource = dataSet.Tables[0];
+            comboBox1.ValueMember = "Nombre";
+            comboBox1.DisplayMember = "Nombre";
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -28,8 +33,8 @@ namespace Proyecto
                 var command = connection.CreateCommand();
                 command.CommandText =
                 @"
-                Insert into Usuarios (Usuario, EntradaL, SalidaL, EntradaM, SalidaM, EntradaX, SalidaX, EntradaJ, SalidaJ, EntradaV, SalidaV)
-                Values (@user, @EL, @SL, @EM, @SM, @EX, @SX, @EJ, @SJ, @EV, @SV)
+                Insert into Usuarios (Usuario, EntradaL, SalidaL, EntradaM, SalidaM, EntradaX, SalidaX, EntradaJ, SalidaJ, EntradaV, SalidaV, Zona)
+                Values (@user, @EL, @SL, @EM, @SM, @EX, @SX, @EJ, @SJ, @EV, @SV, @z)
                 
                 ";
 
@@ -46,7 +51,8 @@ namespace Proyecto
                     command.Parameters.AddWithValue("@SJ", SJ.Value);
                     command.Parameters.AddWithValue("@EV", EV.Value);
                     command.Parameters.AddWithValue("@SV", SV.Value);
-    
+                    command.Parameters.AddWithValue("@z", this.comboBox1.SelectedValue.ToString());
+                
 
                     command.ExecuteNonQuery();
                     command.Parameters.Clear();
@@ -56,7 +62,7 @@ namespace Proyecto
 
             this.Close();
             Gestion gestion = new Gestion();
-            gestion.ShowDialog();
+            gestion.Show();
         }
     }
 }
