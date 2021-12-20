@@ -79,43 +79,67 @@ namespace Proyecto
         private void button1_Click(object sender, EventArgs e)
         {
 
-            using (var connection = new SQLiteConnection(funciones.getConnectionString()))
+            try
             {
-                connection.Open();
-
-                var command = connection.CreateCommand();
-                command.CommandText =
-                @"
-                UPDATE Usuarios
-                SET EntradaL = @EL, SalidaL = @SL, EntradaM = @EM, SalidaM = @SM, EntradaX = @EX, SalidaX = @SX, EntradaJ = @EJ, SalidaJ = @SJ, EntradaV = @EV, SalidaV = @SV, NDiasCond = @ND, Baja = @b
-                WHERE Usuario = @user
-                ";
-
-                foreach (DataGridViewRow row in this.dataGridView1.Rows)
+                using (var connection = new SQLiteConnection(funciones.getConnectionString()))
                 {
-                    
-                    command.Parameters.AddWithValue("@user", row.Cells[0].Value);
-                    command.Parameters.AddWithValue("@EL", row.Cells[1].Value);
-                    command.Parameters.AddWithValue("@SL", row.Cells[2].Value);
-                    command.Parameters.AddWithValue("@EM", row.Cells[3].Value);
-                    command.Parameters.AddWithValue("@SM", row.Cells[4].Value);
-                    command.Parameters.AddWithValue("@EX", row.Cells[5].Value);
-                    command.Parameters.AddWithValue("@SX", row.Cells[6].Value);
-                    command.Parameters.AddWithValue("@EJ", row.Cells[7].Value);
-                    command.Parameters.AddWithValue("@SJ", row.Cells[8].Value);
-                    command.Parameters.AddWithValue("@EV", row.Cells[9].Value);
-                    command.Parameters.AddWithValue("@SV", row.Cells[10].Value);
-                    command.Parameters.AddWithValue("@ND", row.Cells[11].Value);
-                    command.Parameters.AddWithValue("@b", row.Cells[12].Value);
+                    connection.Open();
 
-                    command.ExecuteNonQuery();
-                    command.Parameters.Clear();
+                    var command = connection.CreateCommand();
+                    command.CommandText =
+                    @"
+                    UPDATE Usuarios
+                    SET EntradaL = @EL, SalidaL = @SL, EntradaM = @EM, SalidaM = @SM, EntradaX = @EX, SalidaX = @SX, EntradaJ = @EJ, SalidaJ = @SJ, EntradaV = @EV, SalidaV = @SV, NDiasCond = @ND, Baja = @b, Zona = @z
+                    WHERE Usuario = @user
+                    ";
+
+                    DataSet tb = funciones.fillDropDown();
+
+                    foreach (DataGridViewRow row in this.dataGridView1.Rows)
+                    {
+
+                        //if (int.Parse(row.Cells[2].Value.ToString()) >= int.Parse(row.Cells[1].Value.ToString())
+                        //    && int.Parse(row.Cells[4].Value.ToString()) >= int.Parse(row.Cells[3].Value.ToString())
+                        //    && int.Parse(row.Cells[6].Value.ToString()) >= int.Parse(row.Cells[5].Value.ToString()) 
+                        //    && int.Parse(row.Cells[8].Value.ToString()) >= int.Parse(row.Cells[7].Value.ToString())
+                        //    && int.Parse(row.Cells[10].Value.ToString()) >= int.Parse(row.Cells[9].Value.ToString()) 
+                        //    && tb.Tables[0].Rows.Contains(row.Cells[13].Value.ToString())) {
+
+                            command.Parameters.AddWithValue("@user", row.Cells[0].Value);
+                            command.Parameters.AddWithValue("@EL", row.Cells[1].Value);
+                            command.Parameters.AddWithValue("@SL", row.Cells[2].Value);
+                            command.Parameters.AddWithValue("@EM", row.Cells[3].Value);
+                            command.Parameters.AddWithValue("@SM", row.Cells[4].Value);
+                            command.Parameters.AddWithValue("@EX", row.Cells[5].Value);
+                            command.Parameters.AddWithValue("@SX", row.Cells[6].Value);
+                            command.Parameters.AddWithValue("@EJ", row.Cells[7].Value);
+                            command.Parameters.AddWithValue("@SJ", row.Cells[8].Value);
+                            command.Parameters.AddWithValue("@EV", row.Cells[9].Value);
+                            command.Parameters.AddWithValue("@SV", row.Cells[10].Value);
+                            command.Parameters.AddWithValue("@ND", row.Cells[11].Value);
+                            command.Parameters.AddWithValue("@b", row.Cells[12].Value);
+                            command.Parameters.AddWithValue("@z", row.Cells[13].Value);
+
+
+                            command.ExecuteNonQuery();
+                            command.Parameters.Clear();
+                        //}
+                    }
+
+
+                    dataGridView1.Update();
+                    dataGridView1.Refresh();
+
                 }
+            }
+            catch (SQLiteException sql)
+            {
 
+                MessageBox.Show(sql.ToString());
             }
 
-            dataGridView1.Update();
-            dataGridView1.Refresh();
+            
+
             
         }
 
@@ -149,7 +173,7 @@ namespace Proyecto
                 }
                 this.Close();
                 Gestion gestion = new Gestion();
-                gestion.ShowDialog();
+                gestion.Show();
 
 
             }
@@ -166,7 +190,7 @@ namespace Proyecto
         {
             this.Close();
             Insertar insertar = new Insertar();
-            insertar.ShowDialog();
+            insertar.Show();
 
         }
     }

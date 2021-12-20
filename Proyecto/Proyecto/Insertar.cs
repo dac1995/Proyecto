@@ -22,23 +22,49 @@ namespace Proyecto
             comboBox1.DataSource = dataSet.Tables[0];
             comboBox1.ValueMember = "Nombre";
             comboBox1.DisplayMember = "Nombre";
+
+            EL.ReadOnly = true;
+            SL.ReadOnly = true;
+            EM.ReadOnly = true;
+            SM.ReadOnly = true;
+            EX.ReadOnly = true;
+            SX.ReadOnly = true;
+            EJ.ReadOnly = true;
+            SJ.ReadOnly = true;
+            EV.ReadOnly = true;
+            SV.ReadOnly = true;
+
+            EL.BackColor = Color.White;
+            SL.BackColor = Color.White;
+            EM.BackColor = Color.White;
+            SM.BackColor = Color.White;
+            EX.BackColor = Color.White;
+            SX.BackColor = Color.White;
+            EJ.BackColor = Color.White;
+            SJ.BackColor = Color.White;
+            EV.BackColor = Color.White;
+            SV.BackColor = Color.White;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            using (var connection = new SQLiteConnection(funciones.getConnectionString()))
+            try
             {
-                connection.Open();
+                if(SL.Value >= EL.Value && SM.Value >= EM.Value && SX.Value >= EX.Value && SJ.Value >= EJ.Value && SV.Value >= EV.Value)
+                {
 
-                var command = connection.CreateCommand();
-                command.CommandText =
-                @"
-                Insert into Usuarios (Usuario, EntradaL, SalidaL, EntradaM, SalidaM, EntradaX, SalidaX, EntradaJ, SalidaJ, EntradaV, SalidaV, Zona)
-                Values (@user, @EL, @SL, @EM, @SM, @EX, @SX, @EJ, @SJ, @EV, @SV, @z)
                 
-                ";
+                using (var connection = new SQLiteConnection(funciones.getConnectionString()))
+                {
+                    connection.Open();
 
-               
+                    var command = connection.CreateCommand();
+                    command.CommandText =
+                    @"
+                    Insert into Usuarios (Usuario, EntradaL, SalidaL, EntradaM, SalidaM, EntradaX, SalidaX, EntradaJ, SalidaJ, EntradaV, SalidaV, Zona)
+                    Values (@user, @EL, @SL, @EM, @SM, @EX, @SX, @EJ, @SJ, @EV, @SV, @z)";
+
+
 
                     command.Parameters.AddWithValue("@user", user.Text);
                     command.Parameters.AddWithValue("@EL", EL.Value);
@@ -52,17 +78,28 @@ namespace Proyecto
                     command.Parameters.AddWithValue("@EV", EV.Value);
                     command.Parameters.AddWithValue("@SV", SV.Value);
                     command.Parameters.AddWithValue("@z", this.comboBox1.SelectedValue.ToString());
-                
+
 
                     command.ExecuteNonQuery();
                     command.Parameters.Clear();
-                
+
+
+                }
+
+                this.Close();
+                Gestion gestion = new Gestion();
+                gestion.Show();
+                } else{
+                    MessageBox.Show("Ha introducido valores imposibles o incorrectos");
+                }
 
             }
+            catch (SQLiteException sql)
+            {
 
-            this.Close();
-            Gestion gestion = new Gestion();
-            gestion.Show();
+               MessageBox.Show(sql.ToString());
+            }
+
         }
     }
 }
