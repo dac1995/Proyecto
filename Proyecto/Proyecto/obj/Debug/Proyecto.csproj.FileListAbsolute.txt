@@ -40,3 +40,4 @@ C:\Users\estudiante\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyec
 C:\Users\estudiante\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyecto.Inicio.resources
 C:\Users\ara15\OneDrive\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyecto.Inicio.resources
 C:\Users\ara15\OneDrive\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyecto.Insertar.resources
+C:\Users\estudiante\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyecto.csproj.CopyComplete

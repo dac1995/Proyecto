@@ -1,9 +1,14 @@
 # Proyecto
 Proyecto Diego Araque Chicano
 
-Arreglos finales:
--Añadir en la base de datos la localizacion
--Selección de localizacion (En un dropdownlist) en un pantalla anterior a la aplicacion principal
--Al elegir localizacion se completara el Where = localizacion, cogiendo todos los conductores de esa zona
+https://www.youtube.com/watch?v=pde8dZEYIHA  <---- Login con SqLite, ver video
 
+Cambios:
+
+antes de inicio, que este el login, si es admin que se dirija a lo que está hecho actualmente
+¿Que se pueda crear usuario?
+
+si no es admin¿?¿? ---> Que se muestre directamente la semana donde está actualmente, y añadir un color diferente al usuario, sin guardar el log, y evitando que se acceda a los diferentes botones de accion
+
+Cambiar actualizar datos por avanzar a la semana siguiente, en la gestion de semanas
 
