@@ -123,7 +123,7 @@ namespace Proyecto
 
             //}
             //Application.Run(new Viajes(datos, pairs));
-            Application.Run(new Inicio());
+            Application.Run(new login());
 
         }
 

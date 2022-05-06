@@ -25,7 +25,7 @@ namespace Proyecto
 
         private void search_Click(object sender, EventArgs e)
         {
-            Viajes v = new Viajes(this.comboBox1.SelectedValue.ToString());
+            Viajes v = new Viajes(this.comboBox1.SelectedValue.ToString(), true);
             v.Show();
 
         }
@@ -34,6 +34,13 @@ namespace Proyecto
         {
             Gestion g = new Gestion();
             g.ShowDialog();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            login l = new login();
+            l.ShowDialog();
         }
     }
 }

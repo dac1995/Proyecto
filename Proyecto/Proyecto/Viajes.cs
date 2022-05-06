@@ -16,6 +16,7 @@ namespace Proyecto
         Usuarios[] usuarios;
         //Dictionary<string, DataTable> pairs;
         String zona;
+        Boolean a;
 
         public Viajes(Usuarios[] Data, Dictionary<string, DataTable> pairs)
         {
@@ -29,12 +30,25 @@ namespace Proyecto
             dataV.DataSource = pairs["V"];
             
         }
-        public Viajes(String zona)
+        public Viajes(String zona, Boolean a)
         {
             
             InitializeComponent();
             DialogResult dialogResult = MessageBox.Show("¿Desea guardar los datos en un registro?", "Log", MessageBoxButtons.YesNo);
             this.zona = zona;
+            this.a = a;
+
+            if(a == true)
+            {
+                button4.Hide();
+            }
+            else
+            {
+                button1.Hide();
+                button2.Hide();
+                button3.Hide();
+            }
+
             string[] Dias = new string[] { "L", "M", "X", "J", "V" };
             this.Text = this.Text + " " + zona;
             int tam = funciones.nDatos(zona);
@@ -178,7 +192,7 @@ namespace Proyecto
             {
                 funciones.ActualizarBaseDeDatos(this.usuarios);
                 this.Close();
-                Viajes viajes = new Viajes(this.zona);
+                Viajes viajes = new Viajes(this.zona, this.a);
                 viajes.Show();
 
                 
@@ -201,7 +215,7 @@ namespace Proyecto
                 this.Close();
                 funciones.RestaurarBaseDeDatos();
                 
-                Viajes viajes = new Viajes(this.zona);
+                Viajes viajes = new Viajes(this.zona, this.a);
                 viajes.Show();
 
                
@@ -219,6 +233,13 @@ namespace Proyecto
             Gestion gestion = new Gestion(this.zona);
             gestion.ShowDialog();
 
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            login l = new login();
+            l.ShowDialog();
         }
     }
 }
