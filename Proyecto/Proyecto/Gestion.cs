@@ -89,7 +89,7 @@ namespace Proyecto
                     command.CommandText =
                     @"
                     UPDATE Usuarios
-                    SET EntradaL = @EL, SalidaL = @SL, EntradaM = @EM, SalidaM = @SM, EntradaX = @EX, SalidaX = @SX, EntradaJ = @EJ, SalidaJ = @SJ, EntradaV = @EV, SalidaV = @SV, NDiasCond = @ND, Baja = @b, Zona = @z
+                    SET EntradaL = @EL, SalidaL = @SL, EntradaM = @EM, SalidaM = @SM, EntradaX = @EX, SalidaX = @SX, EntradaJ = @EJ, SalidaJ = @SJ, EntradaV = @EV, SalidaV = @SV, NDiasCond = @ND, Baja = @b, Zona = @z, Password = @p
                     WHERE Usuario = @user
                     ";
 
@@ -119,9 +119,10 @@ namespace Proyecto
                             command.Parameters.AddWithValue("@ND", row.Cells[11].Value);
                             command.Parameters.AddWithValue("@b", row.Cells[12].Value);
                             command.Parameters.AddWithValue("@z", row.Cells[13].Value);
+                            command.Parameters.AddWithValue("@p", row.Cells[14].Value);
 
 
-                            command.ExecuteNonQuery();
+                        command.ExecuteNonQuery();
                             command.Parameters.Clear();
                         //}
                     }
@@ -189,7 +190,7 @@ namespace Proyecto
         private void button3_Click(object sender, EventArgs e)
         {
             this.Close();
-            Insertar insertar = new Insertar();
+            Insertar insertar = new Insertar(false);
             insertar.Show();
 
         }

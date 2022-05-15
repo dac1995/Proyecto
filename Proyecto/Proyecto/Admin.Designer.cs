@@ -1,7 +1,7 @@
 ﻿
 namespace Proyecto
 {
-    partial class Inicio
+    partial class Admin
     {
         /// <summary>
         /// Required designer variable.
@@ -39,16 +39,18 @@ namespace Proyecto
             // 
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(77, 56);
+            this.comboBox1.Location = new System.Drawing.Point(103, 69);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.Size = new System.Drawing.Size(160, 24);
             this.comboBox1.TabIndex = 0;
             // 
             // search
             // 
-            this.search.Location = new System.Drawing.Point(77, 107);
+            this.search.Location = new System.Drawing.Point(103, 132);
+            this.search.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.search.Name = "search";
-            this.search.Size = new System.Drawing.Size(121, 23);
+            this.search.Size = new System.Drawing.Size(161, 28);
             this.search.TabIndex = 1;
             this.search.Text = "MOSTRAR";
             this.search.UseVisualStyleBackColor = true;
@@ -56,9 +58,10 @@ namespace Proyecto
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(192, 195);
+            this.button1.Location = new System.Drawing.Point(256, 240);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(100, 28);
             this.button1.TabIndex = 2;
             this.button1.Text = "Gestionar";
             this.button1.UseVisualStyleBackColor = true;
@@ -66,9 +69,10 @@ namespace Proyecto
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(12, 195);
+            this.button2.Location = new System.Drawing.Point(16, 240);
+            this.button2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(86, 23);
+            this.button2.Size = new System.Drawing.Size(115, 28);
             this.button2.TabIndex = 3;
             this.button2.Text = "Volver";
             this.button2.UseVisualStyleBackColor = true;
@@ -76,15 +80,16 @@ namespace Proyecto
             // 
             // Inicio
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(279, 230);
+            this.ClientSize = new System.Drawing.Size(372, 283);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.search);
             this.Controls.Add(this.comboBox1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Inicio";
-            this.Text = "Inicio";
+            this.Text = "Admin";
             this.ResumeLayout(false);
 
         }

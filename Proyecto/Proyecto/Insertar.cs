@@ -14,11 +14,17 @@ namespace Proyecto
 {
     public partial class Insertar : Form
     {
-        public Insertar()
+        Boolean pass;
+        public Insertar(Boolean pass)
         {
+            this.pass = pass;
             InitializeComponent();
             DataSet dataSet = funciones.fillDropDown();
-
+            if(this.pass == false)
+            {
+                passwordbox.Hide();
+                label13.Hide();
+            }
             comboBox1.DataSource = dataSet.Tables[0];
             comboBox1.ValueMember = "Nombre";
             comboBox1.DisplayMember = "Nombre";
@@ -61,12 +67,21 @@ namespace Proyecto
                     var command = connection.CreateCommand();
                     command.CommandText =
                     @"
-                    Insert into Usuarios (Usuario, EntradaL, SalidaL, EntradaM, SalidaM, EntradaX, SalidaX, EntradaJ, SalidaJ, EntradaV, SalidaV, Zona)
-                    Values (@user, @EL, @SL, @EM, @SM, @EX, @SX, @EJ, @SJ, @EV, @SV, @z)";
+                    Insert into Usuarios (Usuario, EntradaL, SalidaL, EntradaM, SalidaM, EntradaX, SalidaX, EntradaJ, SalidaJ, EntradaV, SalidaV, Zona, Password)
+                    Values (@user, @EL, @SL, @EM, @SM, @EX, @SX, @EJ, @SJ, @EV, @SV, @z, @p)";
 
 
 
                     command.Parameters.AddWithValue("@user", user.Text);
+                        if(pass == true)
+                        {
+                            command.Parameters.AddWithValue("@p", passwordbox.Text);
+
+                        }
+                        else
+                        {
+                            command.Parameters.AddWithValue("@p", "password");
+                        }
                     command.Parameters.AddWithValue("@EL", EL.Value);
                     command.Parameters.AddWithValue("@SL", SL.Value);
                     command.Parameters.AddWithValue("@EM", EM.Value);

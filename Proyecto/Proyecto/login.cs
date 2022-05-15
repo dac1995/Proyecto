@@ -50,13 +50,13 @@ namespace Proyecto
 
                     if (pass.Text == p && a == true)
                     {
-                        this.Hide();
-                        Inicio i = new Inicio();
+                        this.Close();
+                        Admin i = new Admin();
                         i.ShowDialog();
                     }
                     else if (pass.Text == p && z !="")
                     {
-                        this.Hide();
+                        this.Close();
                         Viajes v = new Viajes(z,false);
                         v.ShowDialog();
                     }
