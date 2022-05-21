@@ -77,7 +77,8 @@ namespace Proyecto
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            Insertar insertar = new Insertar(true);
+            insertar.ShowDialog();
         }
 
         private void login_Load(object sender, EventArgs e)

@@ -16,5 +16,16 @@ namespace Proyecto
         {
             InitializeComponent();
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            login login = new login();
+            login.ShowDialog();
+        }
     }
 }

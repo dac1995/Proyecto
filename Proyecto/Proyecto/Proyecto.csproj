@@ -120,6 +120,9 @@
     <EmbeddedResource Include="login.resx">
       <DependentUpon>login.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Start.resx">
+      <DependentUpon>Start.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Viajes.resx">
       <DependentUpon>Viajes.cs</DependentUpon>
     </EmbeddedResource>

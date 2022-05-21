@@ -38,7 +38,9 @@ C:\Users\estudiante\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyec
 C:\Users\estudiante\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyecto.Viajes.resources
 C:\Users\estudiante\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyecto.Insertar.resources
 C:\Users\estudiante\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyecto.Inicio.resources
-C:\Users\ara15\OneDrive\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyecto.Inicio.resources
 C:\Users\ara15\OneDrive\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyecto.Insertar.resources
 C:\Users\estudiante\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyecto.csproj.CopyComplete
 C:\Users\estudiante\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyecto.login.resources
+C:\Users\ara15\OneDrive\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyecto.Admin.resources
+C:\Users\ara15\OneDrive\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyecto.login.resources
+C:\Users\ara15\OneDrive\Documents\GitHub\Proyecto\Proyecto\Proyecto\obj\Debug\Proyecto.Start.resources
