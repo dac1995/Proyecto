@@ -40,7 +40,7 @@ namespace Proyecto
 
             if(a == true)
             {
-                DialogResult dialogResult = MessageBox.Show("¿Desea guardar los datos en un registro?", "Log", MessageBoxButtons.YesNo);
+                
                 button4.Hide();
             }
             else
@@ -137,19 +137,24 @@ namespace Proyecto
 
                 pairs.Add(d, tabla);
 
+                if (a==true)
+                {
+                    DialogResult dialogResult = MessageBox.Show("¿Desea guardar los datos en un registro?", "Log", MessageBoxButtons.YesNo);
+
+                    if (dialogResult == DialogResult.Yes)
+                    {
+
+                        string log = funciones.getLogString() + DateTime.Now.ToString("yyyy-M-dd_HH_mm_ss") + d + zona + ".xml";
+                        tabla.WriteXml(log);
+
+
+                    }
+                    else if (dialogResult == DialogResult.No)
+                    {
+                        //nothing
+                    }
+                }
                 
-                if (dialogResult == DialogResult.Yes)
-                {
-
-                    string log = funciones.getLogString() + DateTime.Now.ToString("yyyy-M-dd_HH_mm_ss") + d + zona + ".xml";
-                    tabla.WriteXml(log);
-
-
-                }
-                else if (dialogResult == DialogResult.No)
-                {
-                    //nothing
-                }
                
 
             }
