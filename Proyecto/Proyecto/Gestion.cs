@@ -89,7 +89,7 @@ namespace Proyecto
                     command.CommandText =
                     @"
                     UPDATE Usuarios
-                    SET EntradaL = @EL, SalidaL = @SL, EntradaM = @EM, SalidaM = @SM, EntradaX = @EX, SalidaX = @SX, EntradaJ = @EJ, SalidaJ = @SJ, EntradaV = @EV, SalidaV = @SV, NDiasCond = @ND, Baja = @b, Zona = @z, Password = @p
+                    SET EntradaL = @EL, SalidaL = @SL, EntradaM = @EM, SalidaM = @SM, EntradaX = @EX, SalidaX = @SX, EntradaJ = @EJ, SalidaJ = @SJ, EntradaV = @EV, SalidaV = @SV, NDiasCond = @ND, Baja = @b, Zona = @z, Password = @p, Admin = @admin
                     WHERE Usuario = @user
                     ";
 
@@ -120,6 +120,7 @@ namespace Proyecto
                             command.Parameters.AddWithValue("@b", row.Cells[12].Value);
                             command.Parameters.AddWithValue("@z", row.Cells[13].Value);
                             command.Parameters.AddWithValue("@p", row.Cells[14].Value);
+                            command.Parameters.AddWithValue("@admin", row.Cells[15].Value);
 
 
                         command.ExecuteNonQuery();

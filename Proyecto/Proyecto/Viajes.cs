@@ -34,12 +34,13 @@ namespace Proyecto
         {
             
             InitializeComponent();
-            DialogResult dialogResult = MessageBox.Show("¿Desea guardar los datos en un registro?", "Log", MessageBoxButtons.YesNo);
+           
             this.zona = zona;
             this.a = a;
 
             if(a == true)
             {
+                DialogResult dialogResult = MessageBox.Show("¿Desea guardar los datos en un registro?", "Log", MessageBoxButtons.YesNo);
                 button4.Hide();
             }
             else
